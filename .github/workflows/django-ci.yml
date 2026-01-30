@@ -34,15 +34,30 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install dependencies
+      - name: Install backend dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r backend/requirements.txt
 
-      - name: Wait for Postgres
+      - name: Wait for PostgreSQL
         run: |
           echo "Waiting for PostgreSQL to be ready..."
-          timeout /t 10
+          timeout /t 15
+
+      - name: Set CI database port
+        run: |
+          echo "Adjusting Django DB port for CI..."
+          python - <<EOF
+            import os, sys, json
+            settings_file = "backend/settings.py"
+            with open(settings_file, "r") as f:
+                data = f.read()
+            # override port if in CI
+            if os.getenv("CI") == "true":
+                data = data.replace('PORT": "5433"', 'PORT": "5432"')
+            with open(settings_file, "w") as f:
+                f.write(data)
+            EOF
 
       - name: Run Django migrations
         working-directory: backend
