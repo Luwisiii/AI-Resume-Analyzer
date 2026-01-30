@@ -10,21 +10,6 @@ jobs:
   backend-ci:
     runs-on: windows-latest
 
-    services:
-      postgres:
-        image: postgres:16
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: ai_resume_db
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd "pg_isready -U postgres"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -34,30 +19,15 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install backend dependencies
+      - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r backend/requirements.txt
 
-      - name: Wait for PostgreSQL
+      - name: Wait for PostgreSQL container
         run: |
-          echo "Waiting for PostgreSQL to be ready..."
+          echo "Waiting for PostgreSQL (pgvector container) to be ready..."
           timeout /t 15
-
-      - name: Set CI database port
-        run: |
-          echo "Adjusting Django DB port for CI..."
-          python - <<EOF
-            import os, sys, json
-            settings_file = "backend/settings.py"
-            with open(settings_file, "r") as f:
-                data = f.read()
-            # override port if in CI
-            if os.getenv("CI") == "true":
-                data = data.replace('PORT": "5433"', 'PORT": "5432"')
-            with open(settings_file, "w") as f:
-                f.write(data)
-            EOF
 
       - name: Run Django migrations
         working-directory: backend
