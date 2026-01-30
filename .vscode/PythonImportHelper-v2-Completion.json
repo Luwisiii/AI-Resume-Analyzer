@@ -1,0 +1,1505 @@
+[
+    {
+        "label": "AppConfig",
+        "importPath": "django.apps",
+        "description": "django.apps",
+        "isExtraImport": true,
+        "detail": "django.apps",
+        "documentation": {}
+    },
+    {
+        "label": "AppConfig",
+        "importPath": "django.apps",
+        "description": "django.apps",
+        "isExtraImport": true,
+        "detail": "django.apps",
+        "documentation": {}
+    },
+    {
+        "label": "AppConfig",
+        "importPath": "django.apps",
+        "description": "django.apps",
+        "isExtraImport": true,
+        "detail": "django.apps",
+        "documentation": {}
+    },
+    {
+        "label": "AppConfig",
+        "importPath": "django.apps",
+        "description": "django.apps",
+        "isExtraImport": true,
+        "detail": "django.apps",
+        "documentation": {}
+    },
+    {
+        "label": "AppConfig",
+        "importPath": "django.apps",
+        "description": "django.apps",
+        "isExtraImport": true,
+        "detail": "django.apps",
+        "documentation": {}
+    },
+    {
+        "label": "job_generation_prompt",
+        "importPath": "backend.apps.ai.job_prompts",
+        "description": "backend.apps.ai.job_prompts",
+        "isExtraImport": true,
+        "detail": "backend.apps.ai.job_prompts",
+        "documentation": {}
+    },
+    {
+        "label": "ask_model",
+        "importPath": "backend.apps.ai.utils",
+        "description": "backend.apps.ai.utils",
+        "isExtraImport": true,
+        "detail": "backend.apps.ai.utils",
+        "documentation": {}
+    },
+    {
+        "label": "json,",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "json.",
+        "description": "json.",
+        "detail": "json.",
+        "documentation": {}
+    },
+    {
+        "label": "requests",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "requests",
+        "description": "requests",
+        "detail": "requests",
+        "documentation": {}
+    },
+    {
+        "label": "json",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "json",
+        "description": "json",
+        "detail": "json",
+        "documentation": {}
+    },
+    {
+        "label": "logging",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "logging",
+        "description": "logging",
+        "detail": "logging",
+        "documentation": {}
+    },
+    {
+        "label": "re",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "re",
+        "description": "re",
+        "detail": "re",
+        "documentation": {}
+    },
+    {
+        "label": "admin",
+        "importPath": "django.contrib",
+        "description": "django.contrib",
+        "isExtraImport": true,
+        "detail": "django.contrib",
+        "documentation": {}
+    },
+    {
+        "label": "admin",
+        "importPath": "django.contrib",
+        "description": "django.contrib",
+        "isExtraImport": true,
+        "detail": "django.contrib",
+        "documentation": {}
+    },
+    {
+        "label": "admin",
+        "importPath": "django.contrib",
+        "description": "django.contrib",
+        "isExtraImport": true,
+        "detail": "django.contrib",
+        "documentation": {}
+    },
+    {
+        "label": "admin",
+        "importPath": "django.contrib",
+        "description": "django.contrib",
+        "isExtraImport": true,
+        "detail": "django.contrib",
+        "documentation": {}
+    },
+    {
+        "label": "admin",
+        "importPath": "django.contrib",
+        "description": "django.contrib",
+        "isExtraImport": true,
+        "detail": "django.contrib",
+        "documentation": {}
+    },
+    {
+        "label": "numpy",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "numpy",
+        "description": "numpy",
+        "detail": "numpy",
+        "documentation": {}
+    },
+    {
+        "label": "Resume",
+        "importPath": "apps.resumes.models",
+        "description": "apps.resumes.models",
+        "isExtraImport": true,
+        "detail": "apps.resumes.models",
+        "documentation": {}
+    },
+    {
+        "label": "Job",
+        "importPath": "apps.jobs.models",
+        "description": "apps.jobs.models",
+        "isExtraImport": true,
+        "detail": "apps.jobs.models",
+        "documentation": {}
+    },
+    {
+        "label": "Job",
+        "importPath": "apps.jobs.models",
+        "description": "apps.jobs.models",
+        "isExtraImport": true,
+        "detail": "apps.jobs.models",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "TestCase",
+        "importPath": "django.test",
+        "description": "django.test",
+        "isExtraImport": true,
+        "detail": "django.test",
+        "documentation": {}
+    },
+    {
+        "label": "TestCase",
+        "importPath": "django.test",
+        "description": "django.test",
+        "isExtraImport": true,
+        "detail": "django.test",
+        "documentation": {}
+    },
+    {
+        "label": "TestCase",
+        "importPath": "django.test",
+        "description": "django.test",
+        "isExtraImport": true,
+        "detail": "django.test",
+        "documentation": {}
+    },
+    {
+        "label": "TestCase",
+        "importPath": "django.test",
+        "description": "django.test",
+        "isExtraImport": true,
+        "detail": "django.test",
+        "documentation": {}
+    },
+    {
+        "label": "render",
+        "importPath": "django.shortcuts",
+        "description": "django.shortcuts",
+        "isExtraImport": true,
+        "detail": "django.shortcuts",
+        "documentation": {}
+    },
+    {
+        "label": "render",
+        "importPath": "django.shortcuts",
+        "description": "django.shortcuts",
+        "isExtraImport": true,
+        "detail": "django.shortcuts",
+        "documentation": {}
+    },
+    {
+        "label": "pgvector.django.vector",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "pgvector.django.vector",
+        "description": "pgvector.django.vector",
+        "detail": "pgvector.django.vector",
+        "documentation": {}
+    },
+    {
+        "label": "django.utils.timezone",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "django.utils.timezone",
+        "description": "django.utils.timezone",
+        "detail": "django.utils.timezone",
+        "documentation": {}
+    },
+    {
+        "label": "VectorField",
+        "importPath": "pgvector.django",
+        "description": "pgvector.django",
+        "isExtraImport": true,
+        "detail": "pgvector.django",
+        "documentation": {}
+    },
+    {
+        "label": "VectorField",
+        "importPath": "pgvector.django",
+        "description": "pgvector.django",
+        "isExtraImport": true,
+        "detail": "pgvector.django",
+        "documentation": {}
+    },
+    {
+        "label": "timezone",
+        "importPath": "django.utils",
+        "description": "django.utils",
+        "isExtraImport": true,
+        "detail": "django.utils",
+        "documentation": {}
+    },
+    {
+        "label": "timezone",
+        "importPath": "django.utils",
+        "description": "django.utils",
+        "isExtraImport": true,
+        "detail": "django.utils",
+        "documentation": {}
+    },
+    {
+        "label": "serializers",
+        "importPath": "rest_framework",
+        "description": "rest_framework",
+        "isExtraImport": true,
+        "detail": "rest_framework",
+        "documentation": {}
+    },
+    {
+        "label": "serializers",
+        "importPath": "rest_framework",
+        "description": "rest_framework",
+        "isExtraImport": true,
+        "detail": "rest_framework",
+        "documentation": {}
+    },
+    {
+        "label": "status",
+        "importPath": "rest_framework",
+        "description": "rest_framework",
+        "isExtraImport": true,
+        "detail": "rest_framework",
+        "documentation": {}
+    },
+    {
+        "label": "shared_task",
+        "importPath": "celery",
+        "description": "celery",
+        "isExtraImport": true,
+        "detail": "celery",
+        "documentation": {}
+    },
+    {
+        "label": "shared_task",
+        "importPath": "celery",
+        "description": "celery",
+        "isExtraImport": true,
+        "detail": "celery",
+        "documentation": {}
+    },
+    {
+        "label": "Celery",
+        "importPath": "celery",
+        "description": "celery",
+        "isExtraImport": true,
+        "detail": "celery",
+        "documentation": {}
+    },
+    {
+        "label": "job_generation_prompt",
+        "importPath": "apps.ai.job_prompts",
+        "description": "apps.ai.job_prompts",
+        "isExtraImport": true,
+        "detail": "apps.ai.job_prompts",
+        "documentation": {}
+    },
+    {
+        "label": "ask_model",
+        "importPath": "apps.ai.utils",
+        "description": "apps.ai.utils",
+        "isExtraImport": true,
+        "detail": "apps.ai.utils",
+        "documentation": {}
+    },
+    {
+        "label": "ask_model",
+        "importPath": "apps.ai.utils",
+        "description": "apps.ai.utils",
+        "isExtraImport": true,
+        "detail": "apps.ai.utils",
+        "documentation": {}
+    },
+    {
+        "label": "SentenceTransformer",
+        "importPath": "sentence_transformers",
+        "description": "sentence_transformers",
+        "isExtraImport": true,
+        "detail": "sentence_transformers",
+        "documentation": {}
+    },
+    {
+        "label": "SentenceTransformer",
+        "importPath": "sentence_transformers",
+        "description": "sentence_transformers",
+        "isExtraImport": true,
+        "detail": "sentence_transformers",
+        "documentation": {}
+    },
+    {
+        "label": "time,",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "time.",
+        "description": "time.",
+        "detail": "time.",
+        "documentation": {}
+    },
+    {
+        "label": "path",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
+        "label": "path",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
+        "label": "path",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
+        "label": "include",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
+        "label": "api_view",
+        "importPath": "rest_framework.decorators",
+        "description": "rest_framework.decorators",
+        "isExtraImport": true,
+        "detail": "rest_framework.decorators",
+        "documentation": {}
+    },
+    {
+        "label": "api_view",
+        "importPath": "rest_framework.decorators",
+        "description": "rest_framework.decorators",
+        "isExtraImport": true,
+        "detail": "rest_framework.decorators",
+        "documentation": {}
+    },
+    {
+        "label": "Response",
+        "importPath": "rest_framework.response",
+        "description": "rest_framework.response",
+        "isExtraImport": true,
+        "detail": "rest_framework.response",
+        "documentation": {}
+    },
+    {
+        "label": "Response",
+        "importPath": "rest_framework.response",
+        "description": "rest_framework.response",
+        "isExtraImport": true,
+        "detail": "rest_framework.response",
+        "documentation": {}
+    },
+    {
+        "label": "django.db.models.deletion",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "django.db.models.deletion",
+        "description": "django.db.models.deletion",
+        "detail": "django.db.models.deletion",
+        "documentation": {}
+    },
+    {
+        "label": "settings",
+        "importPath": "django.conf",
+        "description": "django.conf",
+        "isExtraImport": true,
+        "detail": "django.conf",
+        "documentation": {}
+    },
+    {
+        "label": "settings",
+        "importPath": "django.conf",
+        "description": "django.conf",
+        "isExtraImport": true,
+        "detail": "django.conf",
+        "documentation": {}
+    },
+    {
+        "label": "settings",
+        "importPath": "django.conf",
+        "description": "django.conf",
+        "isExtraImport": true,
+        "detail": "django.conf",
+        "documentation": {}
+    },
+    {
+        "label": "settings",
+        "importPath": "django.conf",
+        "description": "django.conf",
+        "isExtraImport": true,
+        "detail": "django.conf",
+        "documentation": {}
+    },
+    {
+        "label": "get_user_model",
+        "importPath": "django.contrib.auth",
+        "description": "django.contrib.auth",
+        "isExtraImport": true,
+        "detail": "django.contrib.auth",
+        "documentation": {}
+    },
+    {
+        "label": "skill_extraction_prompt",
+        "importPath": "apps.ai.resume_prompts",
+        "description": "apps.ai.resume_prompts",
+        "isExtraImport": true,
+        "detail": "apps.ai.resume_prompts",
+        "documentation": {}
+    },
+    {
+        "label": "fitz",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "fitz",
+        "description": "fitz",
+        "detail": "fitz",
+        "documentation": {}
+    },
+    {
+        "label": "os",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "os",
+        "description": "os",
+        "detail": "os",
+        "documentation": {}
+    },
+    {
+        "label": "get_asgi_application",
+        "importPath": "django.core.asgi",
+        "description": "django.core.asgi",
+        "isExtraImport": true,
+        "detail": "django.core.asgi",
+        "documentation": {}
+    },
+    {
+        "label": "Path",
+        "importPath": "pathlib",
+        "description": "pathlib",
+        "isExtraImport": true,
+        "detail": "pathlib",
+        "documentation": {}
+    },
+    {
+        "label": "static",
+        "importPath": "django.conf.urls.static",
+        "description": "django.conf.urls.static",
+        "isExtraImport": true,
+        "detail": "django.conf.urls.static",
+        "documentation": {}
+    },
+    {
+        "label": "views",
+        "importPath": "apps.resumes",
+        "description": "apps.resumes",
+        "isExtraImport": true,
+        "detail": "apps.resumes",
+        "documentation": {}
+    },
+    {
+        "label": "views",
+        "importPath": "apps.jobs",
+        "description": "apps.jobs",
+        "isExtraImport": true,
+        "detail": "apps.jobs",
+        "documentation": {}
+    },
+    {
+        "label": "get_wsgi_application",
+        "importPath": "django.core.wsgi",
+        "description": "django.core.wsgi",
+        "isExtraImport": true,
+        "detail": "django.core.wsgi",
+        "documentation": {}
+    },
+    {
+        "label": "sys",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "sys",
+        "description": "sys",
+        "detail": "sys",
+        "documentation": {}
+    },
+    {
+        "label": "AiConfig",
+        "kind": 6,
+        "importPath": "backend.apps.ai.apps",
+        "description": "backend.apps.ai.apps",
+        "peekOfCode": "class AiConfig(AppConfig):\n    default_auto_field = \"django.db.models.BigAutoField\"\n    name = \"apps.ai\"",
+        "detail": "backend.apps.ai.apps",
+        "documentation": {}
+    },
+    {
+        "label": "job_generation_prompt",
+        "kind": 2,
+        "importPath": "backend.apps.ai.job_prompts",
+        "description": "backend.apps.ai.job_prompts",
+        "peekOfCode": "def job_generation_prompt(count=5):\n    return f\"\"\"\nGenerate {count} job roles.\nReturn JSON ONLY. Avoid duplicating existing jobs in the database.\nRules:\n- Include a mix of industries; try to diversify beyond Technology, IT, or Software\n- Each job must have:\n  - title\n  - industry\n  - skills (1–3 words each)",
+        "detail": "backend.apps.ai.job_prompts",
+        "documentation": {}
+    },
+    {
+        "label": "skill_extraction_prompt",
+        "kind": 2,
+        "importPath": "backend.apps.ai.resume_prompts",
+        "description": "backend.apps.ai.resume_prompts",
+        "peekOfCode": "def skill_extraction_prompt(resume_text: str) -> str:\n    return f\"\"\"\nExtract ALL professional skills from this resume.\nRules:\n- Include technical, practical, and soft skills\n- Normalize variants (React.js → React, Node.js → Node)\n- Do NOT invent skills\n- Return JSON ONLY\n- Skills must be concise (1–3 words)\nFormat:",
+        "detail": "backend.apps.ai.resume_prompts",
+        "documentation": {}
+    },
+    {
+        "label": "run_job_generation",
+        "kind": 2,
+        "importPath": "backend.apps.ai.run_prompts",
+        "description": "backend.apps.ai.run_prompts",
+        "peekOfCode": "def run_job_generation():\n    prompt = job_generation_prompt(count=5)\n    result = ask_model(prompt)\n    print(\"Generated jobs:\")\n    print(json.dumps(result, indent=2))\n    print(\"Elapsed:\", round(time.time() - start, 2), \"sec\")\nif __name__ == \"__main__\":\n    run_job_generation()",
+        "detail": "backend.apps.ai.run_prompts",
+        "documentation": {}
+    },
+    {
+        "label": "start",
+        "kind": 5,
+        "importPath": "backend.apps.ai.run_prompts",
+        "description": "backend.apps.ai.run_prompts",
+        "peekOfCode": "start = time.time()\ndef run_job_generation():\n    prompt = job_generation_prompt(count=5)\n    result = ask_model(prompt)\n    print(\"Generated jobs:\")\n    print(json.dumps(result, indent=2))\n    print(\"Elapsed:\", round(time.time() - start, 2), \"sec\")\nif __name__ == \"__main__\":\n    run_job_generation()",
+        "detail": "backend.apps.ai.run_prompts",
+        "documentation": {}
+    },
+    {
+        "label": "ask_model",
+        "kind": 2,
+        "importPath": "backend.apps.ai.utils",
+        "description": "backend.apps.ai.utils",
+        "peekOfCode": "def ask_model(prompt: str):\n    try:\n        response = requests.post(\n            OLLAMA_URL,\n            json={\n                \"model\": MODEL,\n                \"prompt\": prompt,\n                \"stream\": False,\n                \"options\": {\n                    \"temperature\": 0.2,     # NOT zero",
+        "detail": "backend.apps.ai.utils",
+        "documentation": {}
+    },
+    {
+        "label": "logger",
+        "kind": 5,
+        "importPath": "backend.apps.ai.utils",
+        "description": "backend.apps.ai.utils",
+        "peekOfCode": "logger = logging.getLogger(__name__)\nOLLAMA_URL = \"http://localhost:11434/api/generate\"\nMODEL = \"phi3:mini\"\ndef ask_model(prompt: str):\n    try:\n        response = requests.post(\n            OLLAMA_URL,\n            json={\n                \"model\": MODEL,\n                \"prompt\": prompt,",
+        "detail": "backend.apps.ai.utils",
+        "documentation": {}
+    },
+    {
+        "label": "OLLAMA_URL",
+        "kind": 5,
+        "importPath": "backend.apps.ai.utils",
+        "description": "backend.apps.ai.utils",
+        "peekOfCode": "OLLAMA_URL = \"http://localhost:11434/api/generate\"\nMODEL = \"phi3:mini\"\ndef ask_model(prompt: str):\n    try:\n        response = requests.post(\n            OLLAMA_URL,\n            json={\n                \"model\": MODEL,\n                \"prompt\": prompt,\n                \"stream\": False,",
+        "detail": "backend.apps.ai.utils",
+        "documentation": {}
+    },
+    {
+        "label": "MODEL",
+        "kind": 5,
+        "importPath": "backend.apps.ai.utils",
+        "description": "backend.apps.ai.utils",
+        "peekOfCode": "MODEL = \"phi3:mini\"\ndef ask_model(prompt: str):\n    try:\n        response = requests.post(\n            OLLAMA_URL,\n            json={\n                \"model\": MODEL,\n                \"prompt\": prompt,\n                \"stream\": False,\n                \"options\": {",
+        "detail": "backend.apps.ai.utils",
+        "documentation": {}
+    },
+    {
+        "label": "AnalysisConfig",
+        "kind": 6,
+        "importPath": "backend.apps.analysis.apps",
+        "description": "backend.apps.analysis.apps",
+        "peekOfCode": "class AnalysisConfig(AppConfig):\n    default_auto_field = 'django.db.models.BigAutoField'\n    name = 'apps.analysis'",
+        "detail": "backend.apps.analysis.apps",
+        "documentation": {}
+    },
+    {
+        "label": "cosine_similarity",
+        "kind": 2,
+        "importPath": "backend.apps.analysis.matching",
+        "description": "backend.apps.analysis.matching",
+        "peekOfCode": "def cosine_similarity(vec1, vec2):\n    \"\"\"Compute cosine similarity between two lists/vectors\"\"\"\n    v1 = np.array(vec1)\n    v2 = np.array(vec2)\n    if np.linalg.norm(v1) == 0 or np.linalg.norm(v2) == 0:\n        return 0.0\n    return float(np.dot(v1, v2) / (np.linalg.norm(v1) * np.linalg.norm(v2)))\ndef match_resume_to_job(resume: Resume, job: Job):\n    \"\"\"Return similarity score between 0 and 1\"\"\"\n    # Check if embeddings exist and are non-empty",
+        "detail": "backend.apps.analysis.matching",
+        "documentation": {}
+    },
+    {
+        "label": "match_resume_to_job",
+        "kind": 2,
+        "importPath": "backend.apps.analysis.matching",
+        "description": "backend.apps.analysis.matching",
+        "peekOfCode": "def match_resume_to_job(resume: Resume, job: Job):\n    \"\"\"Return similarity score between 0 and 1\"\"\"\n    # Check if embeddings exist and are non-empty\n    if resume.embedding is None or job.embedding is None:\n        return 0.0\n    # If embeddings are NumPy arrays, ensure they are not empty\n    if isinstance(resume.embedding, np.ndarray) and resume.embedding.size == 0:\n        return 0.0\n    if isinstance(job.embedding, np.ndarray) and job.embedding.size == 0:\n        return 0.0",
+        "detail": "backend.apps.analysis.matching",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "backend.apps.jobs.migrations.0001_initial",
+        "description": "backend.apps.jobs.migrations.0001_initial",
+        "peekOfCode": "class Migration(migrations.Migration):\n    initial = True\n    dependencies = [\n    ]\n    operations = [\n        migrations.CreateModel(\n            name='Job',\n            fields=[\n                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),\n                ('title', models.CharField(max_length=255)),",
+        "detail": "backend.apps.jobs.migrations.0001_initial",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "backend.apps.jobs.migrations.0002_job_created_at_job_description",
+        "description": "backend.apps.jobs.migrations.0002_job_created_at_job_description",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('jobs', '0001_initial'),\n    ]\n    operations = [\n        migrations.AddField(\n            model_name='job',\n            name='created_at',\n            field=models.DateTimeField(default=django.utils.timezone.now),\n        ),",
+        "detail": "backend.apps.jobs.migrations.0002_job_created_at_job_description",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "backend.apps.jobs.migrations.0003_job_skills_alter_job_embedding",
+        "description": "backend.apps.jobs.migrations.0003_job_skills_alter_job_embedding",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('jobs', '0002_job_created_at_job_description'),\n    ]\n    operations = [\n        migrations.AddField(\n            model_name='job',\n            name='skills',\n            field=models.TextField(blank=True),\n        ),",
+        "detail": "backend.apps.jobs.migrations.0003_job_skills_alter_job_embedding",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "backend.apps.jobs.migrations.0004_job_industry",
+        "description": "backend.apps.jobs.migrations.0004_job_industry",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('jobs', '0003_job_skills_alter_job_embedding'),\n    ]\n    operations = [\n        migrations.AddField(\n            model_name='job',\n            name='industry',\n            field=models.CharField(blank=True, max_length=100),\n        ),",
+        "detail": "backend.apps.jobs.migrations.0004_job_industry",
+        "documentation": {}
+    },
+    {
+        "label": "JobsConfig",
+        "kind": 6,
+        "importPath": "backend.apps.jobs.apps",
+        "description": "backend.apps.jobs.apps",
+        "peekOfCode": "class JobsConfig(AppConfig):\n    default_auto_field = 'django.db.models.BigAutoField'\n    name = 'apps.jobs'",
+        "detail": "backend.apps.jobs.apps",
+        "documentation": {}
+    },
+    {
+        "label": "Job",
+        "kind": 6,
+        "importPath": "backend.apps.jobs.models",
+        "description": "backend.apps.jobs.models",
+        "peekOfCode": "class Job(models.Model):\n    title = models.CharField(max_length=255)\n    industry = models.CharField(max_length=100, blank=True)\n    description = models.TextField(default=\"\")\n    skills = models.TextField(blank=True)\n    embedding = VectorField(dimensions=384, null=True)\n    created_at = models.DateTimeField(default=timezone.now)\n    def __str__(self):\n        return self.title",
+        "detail": "backend.apps.jobs.models",
+        "documentation": {}
+    },
+    {
+        "label": "JobSerializer",
+        "kind": 6,
+        "importPath": "backend.apps.jobs.serializers",
+        "description": "backend.apps.jobs.serializers",
+        "peekOfCode": "class JobSerializer(serializers.ModelSerializer):\n    class Meta:\n        model = Job\n        fields = ['id', 'title', 'description', 'skills', 'embedding', 'created_at']",
+        "detail": "backend.apps.jobs.serializers",
+        "documentation": {}
+    },
+    {
+        "label": "parse_json_array",
+        "kind": 2,
+        "importPath": "backend.apps.jobs.tasks",
+        "description": "backend.apps.jobs.tasks",
+        "peekOfCode": "def parse_json_array(text: str):\n    match = re.search(r\"\\[.*?\\]\", text, re.DOTALL)\n    if not match:\n        return []\n    raw = match.group()\n    fixed = raw.replace(\"'\", '\"')\n    fixed = re.sub(r\",\\s*]\", \"]\", fixed)\n    fixed = re.sub(r\",\\s*}\", \"}\", fixed)\n    try:\n        data = json.loads(fixed)",
+        "detail": "backend.apps.jobs.tasks",
+        "documentation": {}
+    },
+    {
+        "label": "ask_model_safe",
+        "kind": 2,
+        "importPath": "backend.apps.jobs.tasks",
+        "description": "backend.apps.jobs.tasks",
+        "peekOfCode": "def ask_model_safe(prompt: str):\n    text = ask_model(prompt)\n    if isinstance(text, list):\n        return text\n    elif isinstance(text, str):\n        return parse_json_array(text)\n    else:\n        return []\n@shared_task(bind=True, autoretry_for=(Exception,), retry_backoff=30, retry_kwargs={\"max_retries\": 3})\ndef generate_jobs(self, count=50):",
+        "detail": "backend.apps.jobs.tasks",
+        "documentation": {}
+    },
+    {
+        "label": "generate_jobs",
+        "kind": 2,
+        "importPath": "backend.apps.jobs.tasks",
+        "description": "backend.apps.jobs.tasks",
+        "peekOfCode": "def generate_jobs(self, count=50):\n    print(\"🔥 generate_jobs called with count =\", count)\n    batch_size = 5\n    created_total = 0\n    received_total = 0\n    # Track existing jobs to avoid duplicates\n    existing_jobs = set(\n        (job.title.lower().strip(), job.skills.lower().strip())\n        for job in Job.objects.all()\n    )",
+        "detail": "backend.apps.jobs.tasks",
+        "documentation": {}
+    },
+    {
+        "label": "embedding_model",
+        "kind": 5,
+        "importPath": "backend.apps.jobs.tasks",
+        "description": "backend.apps.jobs.tasks",
+        "peekOfCode": "embedding_model = SentenceTransformer(\"all-MiniLM-L6-v2\")\ndef parse_json_array(text: str):\n    match = re.search(r\"\\[.*?\\]\", text, re.DOTALL)\n    if not match:\n        return []\n    raw = match.group()\n    fixed = raw.replace(\"'\", '\"')\n    fixed = re.sub(r\",\\s*]\", \"]\", fixed)\n    fixed = re.sub(r\",\\s*}\", \"}\", fixed)\n    try:",
+        "detail": "backend.apps.jobs.tasks",
+        "documentation": {}
+    },
+    {
+        "label": "urlpatterns",
+        "kind": 5,
+        "importPath": "backend.apps.jobs.urls",
+        "description": "backend.apps.jobs.urls",
+        "peekOfCode": "urlpatterns = [\n    path(\"\", jobs_list, name=\"jobs-list\"), \n]",
+        "detail": "backend.apps.jobs.urls",
+        "documentation": {}
+    },
+    {
+        "label": "jobs_list",
+        "kind": 2,
+        "importPath": "backend.apps.jobs.views",
+        "description": "backend.apps.jobs.views",
+        "peekOfCode": "def jobs_list(request):\n    jobs = Job.objects.all()\n    serializer = JobSerializer(jobs, many=True)\n    return Response(serializer.data)",
+        "detail": "backend.apps.jobs.views",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "backend.apps.resumes.migrations.0001_initial",
+        "description": "backend.apps.resumes.migrations.0001_initial",
+        "peekOfCode": "class Migration(migrations.Migration):\n    initial = True\n    dependencies = [\n    ]\n    operations = [\n        migrations.CreateModel(\n            name='Resume',\n            fields=[\n                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),\n                ('file', models.FileField(upload_to='resumes/')),",
+        "detail": "backend.apps.resumes.migrations.0001_initial",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "backend.apps.resumes.migrations.0002_resume_extracted_text_resume_user_and_more",
+        "description": "backend.apps.resumes.migrations.0002_resume_extracted_text_resume_user_and_more",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('resumes', '0001_initial'),\n        migrations.swappable_dependency(settings.AUTH_USER_MODEL),\n    ]\n    operations = [\n        migrations.AddField(\n            model_name='resume',\n            name='extracted_text',\n            field=models.TextField(blank=True),",
+        "detail": "backend.apps.resumes.migrations.0002_resume_extracted_text_resume_user_and_more",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "backend.apps.resumes.migrations.0003_alter_resume_user",
+        "description": "backend.apps.resumes.migrations.0003_alter_resume_user",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('resumes', '0002_resume_extracted_text_resume_user_and_more'),\n        migrations.swappable_dependency(settings.AUTH_USER_MODEL),\n    ]\n    operations = [\n        migrations.AlterField(\n            model_name='resume',\n            name='user',\n            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),",
+        "detail": "backend.apps.resumes.migrations.0003_alter_resume_user",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "backend.apps.resumes.migrations.0004_alter_resume_user",
+        "description": "backend.apps.resumes.migrations.0004_alter_resume_user",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('resumes', '0003_alter_resume_user'),\n        migrations.swappable_dependency(settings.AUTH_USER_MODEL),\n    ]\n    operations = [\n        migrations.AlterField(\n            model_name='resume',\n            name='user',\n            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL),",
+        "detail": "backend.apps.resumes.migrations.0004_alter_resume_user",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "backend.apps.resumes.migrations.0005_resume_skills",
+        "description": "backend.apps.resumes.migrations.0005_resume_skills",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('resumes', '0004_alter_resume_user'),\n    ]\n    operations = [\n        migrations.AddField(\n            model_name='resume',\n            name='skills',\n            field=models.TextField(blank=True),\n        ),",
+        "detail": "backend.apps.resumes.migrations.0005_resume_skills",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "backend.apps.resumes.migrations.0006_resume_ai_feedback_resume_embedding",
+        "description": "backend.apps.resumes.migrations.0006_resume_ai_feedback_resume_embedding",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('resumes', '0005_resume_skills'),\n    ]\n    operations = [\n        migrations.AddField(\n            model_name='resume',\n            name='ai_feedback',\n            field=models.TextField(blank=True, null=True),\n        ),",
+        "detail": "backend.apps.resumes.migrations.0006_resume_ai_feedback_resume_embedding",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "backend.apps.resumes.migrations.0007_alter_resume_embedding",
+        "description": "backend.apps.resumes.migrations.0007_alter_resume_embedding",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('resumes', '0006_resume_ai_feedback_resume_embedding'),\n    ]\n    operations = [\n        migrations.AlterField(\n            model_name='resume',\n            name='embedding',\n            field=pgvector.django.vector.VectorField(dimensions=384, null=True),\n        ),",
+        "detail": "backend.apps.resumes.migrations.0007_alter_resume_embedding",
+        "documentation": {}
+    },
+    {
+        "label": "ResumesConfig",
+        "kind": 6,
+        "importPath": "backend.apps.resumes.apps",
+        "description": "backend.apps.resumes.apps",
+        "peekOfCode": "class ResumesConfig(AppConfig):\n    default_auto_field = 'django.db.models.BigAutoField'\n    name = 'apps.resumes'",
+        "detail": "backend.apps.resumes.apps",
+        "documentation": {}
+    },
+    {
+        "label": "Resume",
+        "kind": 6,
+        "importPath": "backend.apps.resumes.models",
+        "description": "backend.apps.resumes.models",
+        "peekOfCode": "class Resume(models.Model):\n    user = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL)\n    file = models.FileField(upload_to=\"resumes/\")\n    extracted_text = models.TextField(blank=True)\n    skills = models.TextField(blank=True)\n    ai_feedback = models.TextField(blank=True, null=True)\n    embedding = VectorField(dimensions=384, null=True)\n    uploaded_at = models.DateTimeField(default=timezone.now)\n    def __str__(self):\n        return self.file.name",
+        "detail": "backend.apps.resumes.models",
+        "documentation": {}
+    },
+    {
+        "label": "User",
+        "kind": 5,
+        "importPath": "backend.apps.resumes.models",
+        "description": "backend.apps.resumes.models",
+        "peekOfCode": "User = get_user_model()\nclass Resume(models.Model):\n    user = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL)\n    file = models.FileField(upload_to=\"resumes/\")\n    extracted_text = models.TextField(blank=True)\n    skills = models.TextField(blank=True)\n    ai_feedback = models.TextField(blank=True, null=True)\n    embedding = VectorField(dimensions=384, null=True)\n    uploaded_at = models.DateTimeField(default=timezone.now)\n    def __str__(self):",
+        "detail": "backend.apps.resumes.models",
+        "documentation": {}
+    },
+    {
+        "label": "ResumeSerializer",
+        "kind": 6,
+        "importPath": "backend.apps.resumes.serializers",
+        "description": "backend.apps.resumes.serializers",
+        "peekOfCode": "class ResumeSerializer(serializers.ModelSerializer):\n    class Meta:\n        model = Resume\n        fields = \"__all__\"",
+        "detail": "backend.apps.resumes.serializers",
+        "documentation": {}
+    },
+    {
+        "label": "extract_text_from_pdf",
+        "kind": 2,
+        "importPath": "backend.apps.resumes.tasks",
+        "description": "backend.apps.resumes.tasks",
+        "peekOfCode": "def extract_text_from_pdf(file_path):\n    doc = fitz.open(file_path)\n    text = \"\"\n    for page in doc:\n        text += page.get_text(\"text\") or \"\"\n    return text.strip()\n@shared_task\ndef process_resume(resume_id):\n    \"\"\"\n    1️⃣ Extract text",
+        "detail": "backend.apps.resumes.tasks",
+        "documentation": {}
+    },
+    {
+        "label": "process_resume",
+        "kind": 2,
+        "importPath": "backend.apps.resumes.tasks",
+        "description": "backend.apps.resumes.tasks",
+        "peekOfCode": "def process_resume(resume_id):\n    \"\"\"\n    1️⃣ Extract text\n    2️⃣ AI skill extraction \n    3️⃣ Generate embeddings\n    \"\"\"\n    try:\n        resume = Resume.objects.get(id=resume_id)\n    except Resume.DoesNotExist:\n        return f\"Resume {resume_id} not found\"",
+        "detail": "backend.apps.resumes.tasks",
+        "documentation": {}
+    },
+    {
+        "label": "logger",
+        "kind": 5,
+        "importPath": "backend.apps.resumes.tasks",
+        "description": "backend.apps.resumes.tasks",
+        "peekOfCode": "logger = logging.getLogger(__name__)\n# Load once\nmodel = SentenceTransformer(\"all-MiniLM-L6-v2\")\ndef extract_text_from_pdf(file_path):\n    doc = fitz.open(file_path)\n    text = \"\"\n    for page in doc:\n        text += page.get_text(\"text\") or \"\"\n    return text.strip()\n@shared_task",
+        "detail": "backend.apps.resumes.tasks",
+        "documentation": {}
+    },
+    {
+        "label": "model",
+        "kind": 5,
+        "importPath": "backend.apps.resumes.tasks",
+        "description": "backend.apps.resumes.tasks",
+        "peekOfCode": "model = SentenceTransformer(\"all-MiniLM-L6-v2\")\ndef extract_text_from_pdf(file_path):\n    doc = fitz.open(file_path)\n    text = \"\"\n    for page in doc:\n        text += page.get_text(\"text\") or \"\"\n    return text.strip()\n@shared_task\ndef process_resume(resume_id):\n    \"\"\"",
+        "detail": "backend.apps.resumes.tasks",
+        "documentation": {}
+    },
+    {
+        "label": "urlpatterns",
+        "kind": 5,
+        "importPath": "backend.apps.resumes.urls",
+        "description": "backend.apps.resumes.urls",
+        "peekOfCode": "urlpatterns = [\n    path(\"upload/\", upload_resume, name=\"resume-upload\"),\n    path(\"<int:resume_id>/\", resume_detail, name=\"resume-detail\"),\n    path(\"<int:resume_id>/job/<int:job_id>/match/\", resume_job_match_view, name=\"resume-job-match\"),\n]",
+        "detail": "backend.apps.resumes.urls",
+        "documentation": {}
+    },
+    {
+        "label": "extract_text_from_pdf",
+        "kind": 2,
+        "importPath": "backend.apps.resumes.utils",
+        "description": "backend.apps.resumes.utils",
+        "peekOfCode": "def extract_text_from_pdf(file_field):\n    \"\"\"\n    Extract text from PDF using PyMuPDF.\n    \"\"\"\n    file_field.seek(0)\n    pdf_bytes = file_field.read()\n    doc = fitz.open(stream=pdf_bytes, filetype=\"pdf\")\n    text = \"\"\n    for page in doc:\n        text += page.get_text(\"text\") + \" \"",
+        "detail": "backend.apps.resumes.utils",
+        "documentation": {}
+    },
+    {
+        "label": "get_resume_feedback",
+        "kind": 2,
+        "importPath": "backend.apps.resumes.views",
+        "description": "backend.apps.resumes.views",
+        "peekOfCode": "def get_resume_feedback(resume_skills, jobs):\n    feedback = []\n    resume_skills_set = {s.strip().lower() for s in resume_skills if s}\n    for job in jobs:\n        job_skills_set = (\n            {s.strip().lower() for s in job.skills.split(\",\")}\n            if job.skills else set()\n        )\n        if not job_skills_set:\n            strength = 0",
+        "detail": "backend.apps.resumes.views",
+        "documentation": {}
+    },
+    {
+        "label": "upload_resume",
+        "kind": 2,
+        "importPath": "backend.apps.resumes.views",
+        "description": "backend.apps.resumes.views",
+        "peekOfCode": "def upload_resume(request):\n    files = request.FILES.getlist(\"file\")\n    uploaded = []\n    for f in files:\n        resume = Resume.objects.create(\n            file=f,\n            user=request.user if request.user.is_authenticated else None\n        )\n        # async processing\n        process_resume.delay(resume.id)",
+        "detail": "backend.apps.resumes.views",
+        "documentation": {}
+    },
+    {
+        "label": "resume_detail",
+        "kind": 2,
+        "importPath": "backend.apps.resumes.views",
+        "description": "backend.apps.resumes.views",
+        "peekOfCode": "def resume_detail(request, resume_id):\n    try:\n        resume = Resume.objects.get(id=resume_id)\n        serialized = ResumeSerializer(resume).data\n        # ✅ ADD job feedback as a DIFFERENT FIELD\n        resume_skills = (\n            [s.strip().lower() for s in resume.skills.split(\",\")]\n            if resume.skills else []\n        )\n        jobs = Job.objects.all()",
+        "detail": "backend.apps.resumes.views",
+        "documentation": {}
+    },
+    {
+        "label": "resume_job_match_view",
+        "kind": 2,
+        "importPath": "backend.apps.resumes.views",
+        "description": "backend.apps.resumes.views",
+        "peekOfCode": "def resume_job_match_view(request, resume_id, job_id):\n    try:\n        resume = Resume.objects.get(id=resume_id)\n        job = Job.objects.get(id=job_id)\n        resume_skills = (\n            {s.strip().lower() for s in resume.skills.split(\",\")}\n            if resume.skills else set()\n        )\n        job_skills = (\n            {s.strip().lower() for s in job.skills.split(\",\")}",
+        "detail": "backend.apps.resumes.views",
+        "documentation": {}
+    },
+    {
+        "label": "UsersConfig",
+        "kind": 6,
+        "importPath": "backend.apps.users.apps",
+        "description": "backend.apps.users.apps",
+        "peekOfCode": "class UsersConfig(AppConfig):\n    default_auto_field = 'django.db.models.BigAutoField'\n    name = 'apps.users'",
+        "detail": "backend.apps.users.apps",
+        "documentation": {}
+    },
+    {
+        "label": "application",
+        "kind": 5,
+        "importPath": "backend.core.asgi",
+        "description": "backend.core.asgi",
+        "peekOfCode": "application = get_asgi_application()",
+        "detail": "backend.core.asgi",
+        "documentation": {}
+    },
+    {
+        "label": "app",
+        "kind": 5,
+        "importPath": "backend.core.celery_app",
+        "description": "backend.core.celery_app",
+        "peekOfCode": "app = Celery(\"backend\")\napp.config_from_object(\"django.conf:settings\", namespace=\"CELERY\")\napp.autodiscover_tasks()",
+        "detail": "backend.core.celery_app",
+        "documentation": {}
+    },
+    {
+        "label": "BASE_DIR",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "BASE_DIR = Path(__file__).resolve().parent.parent\n# Quick-start development settings - unsuitable for production\n# See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/\n# SECURITY WARNING: keep the secret key used in production secret!\nSECRET_KEY = 'django-insecure-byolj-t=dw5nzqcse1ounu)pb8dzhq(=%vxs5t3t$81t+xafz$'\n# SECURITY WARNING: don't run with debug turned on in production!\nDEBUG = True\nALLOWED_HOSTS = []\n# Application definition\nINSTALLED_APPS = [",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "SECRET_KEY",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "SECRET_KEY = 'django-insecure-byolj-t=dw5nzqcse1ounu)pb8dzhq(=%vxs5t3t$81t+xafz$'\n# SECURITY WARNING: don't run with debug turned on in production!\nDEBUG = True\nALLOWED_HOSTS = []\n# Application definition\nINSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "DEBUG",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "DEBUG = True\nALLOWED_HOSTS = []\n# Application definition\nINSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',\n    'django.contrib.messages',\n    'django.contrib.staticfiles',",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "ALLOWED_HOSTS",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "ALLOWED_HOSTS = []\n# Application definition\nINSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',\n    'django.contrib.messages',\n    'django.contrib.staticfiles',\n    'django_celery_results',",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "INSTALLED_APPS",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "INSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',\n    'django.contrib.messages',\n    'django.contrib.staticfiles',\n    'django_celery_results',\n    'pgvector',\n    'corsheaders',",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "CELERY_BROKER_URL",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "CELERY_BROKER_URL = \"redis://localhost:6379/0\"\nCELERY_RESULT_BACKEND = \"django-db\"\nCELERY_ACCEPT_CONTENT = [\"json\"]\nCELERY_TASK_SERIALIZER = \"json\"\nCELERY_RESULT_SERIALIZER = \"json\"\nCELERY_TIMEZONE = \"UTC\"\nMIDDLEWARE = [\n    'corsheaders.middleware.CorsMiddleware',\n    'django.middleware.security.SecurityMiddleware',\n    'django.contrib.sessions.middleware.SessionMiddleware',",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "CELERY_RESULT_BACKEND",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "CELERY_RESULT_BACKEND = \"django-db\"\nCELERY_ACCEPT_CONTENT = [\"json\"]\nCELERY_TASK_SERIALIZER = \"json\"\nCELERY_RESULT_SERIALIZER = \"json\"\nCELERY_TIMEZONE = \"UTC\"\nMIDDLEWARE = [\n    'corsheaders.middleware.CorsMiddleware',\n    'django.middleware.security.SecurityMiddleware',\n    'django.contrib.sessions.middleware.SessionMiddleware',\n    'django.middleware.common.CommonMiddleware',",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "CELERY_ACCEPT_CONTENT",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "CELERY_ACCEPT_CONTENT = [\"json\"]\nCELERY_TASK_SERIALIZER = \"json\"\nCELERY_RESULT_SERIALIZER = \"json\"\nCELERY_TIMEZONE = \"UTC\"\nMIDDLEWARE = [\n    'corsheaders.middleware.CorsMiddleware',\n    'django.middleware.security.SecurityMiddleware',\n    'django.contrib.sessions.middleware.SessionMiddleware',\n    'django.middleware.common.CommonMiddleware',\n    'django.middleware.csrf.CsrfViewMiddleware',",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "CELERY_TASK_SERIALIZER",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "CELERY_TASK_SERIALIZER = \"json\"\nCELERY_RESULT_SERIALIZER = \"json\"\nCELERY_TIMEZONE = \"UTC\"\nMIDDLEWARE = [\n    'corsheaders.middleware.CorsMiddleware',\n    'django.middleware.security.SecurityMiddleware',\n    'django.contrib.sessions.middleware.SessionMiddleware',\n    'django.middleware.common.CommonMiddleware',\n    'django.middleware.csrf.CsrfViewMiddleware',\n    'django.contrib.auth.middleware.AuthenticationMiddleware',",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "CELERY_RESULT_SERIALIZER",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "CELERY_RESULT_SERIALIZER = \"json\"\nCELERY_TIMEZONE = \"UTC\"\nMIDDLEWARE = [\n    'corsheaders.middleware.CorsMiddleware',\n    'django.middleware.security.SecurityMiddleware',\n    'django.contrib.sessions.middleware.SessionMiddleware',\n    'django.middleware.common.CommonMiddleware',\n    'django.middleware.csrf.CsrfViewMiddleware',\n    'django.contrib.auth.middleware.AuthenticationMiddleware',\n    'django.contrib.messages.middleware.MessageMiddleware',",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "CELERY_TIMEZONE",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "CELERY_TIMEZONE = \"UTC\"\nMIDDLEWARE = [\n    'corsheaders.middleware.CorsMiddleware',\n    'django.middleware.security.SecurityMiddleware',\n    'django.contrib.sessions.middleware.SessionMiddleware',\n    'django.middleware.common.CommonMiddleware',\n    'django.middleware.csrf.CsrfViewMiddleware',\n    'django.contrib.auth.middleware.AuthenticationMiddleware',\n    'django.contrib.messages.middleware.MessageMiddleware',\n    'django.middleware.clickjacking.XFrameOptionsMiddleware',",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "MIDDLEWARE",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "MIDDLEWARE = [\n    'corsheaders.middleware.CorsMiddleware',\n    'django.middleware.security.SecurityMiddleware',\n    'django.contrib.sessions.middleware.SessionMiddleware',\n    'django.middleware.common.CommonMiddleware',\n    'django.middleware.csrf.CsrfViewMiddleware',\n    'django.contrib.auth.middleware.AuthenticationMiddleware',\n    'django.contrib.messages.middleware.MessageMiddleware',\n    'django.middleware.clickjacking.XFrameOptionsMiddleware',\n]",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "ROOT_URLCONF",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "ROOT_URLCONF = 'core.urls'\nTEMPLATES = [\n    {\n        'BACKEND': 'django.template.backends.django.DjangoTemplates',\n        'DIRS': [],\n        'APP_DIRS': True,\n        'OPTIONS': {\n            'context_processors': [\n                'django.template.context_processors.request',\n                'django.contrib.auth.context_processors.auth',",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "TEMPLATES",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "TEMPLATES = [\n    {\n        'BACKEND': 'django.template.backends.django.DjangoTemplates',\n        'DIRS': [],\n        'APP_DIRS': True,\n        'OPTIONS': {\n            'context_processors': [\n                'django.template.context_processors.request',\n                'django.contrib.auth.context_processors.auth',\n                'django.contrib.messages.context_processors.messages',",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "WSGI_APPLICATION",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "WSGI_APPLICATION = 'core.wsgi.application'\n# Database\n# https://docs.djangoproject.com/en/5.2/ref/settings/#databases\nDATABASES = {\n   \"default\": {\n        \"ENGINE\": \"django.db.backends.postgresql\",\n        \"NAME\": \"ai_resume_db\",\n        \"USER\": \"postgres\",\n        \"PASSWORD\": \"postgres\",\n        \"HOST\": \"127.0.0.1\",",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "DATABASES",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "DATABASES = {\n   \"default\": {\n        \"ENGINE\": \"django.db.backends.postgresql\",\n        \"NAME\": \"ai_resume_db\",\n        \"USER\": \"postgres\",\n        \"PASSWORD\": \"postgres\",\n        \"HOST\": \"127.0.0.1\",\n        \"PORT\": \"5433\",\n    }\n}",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "AUTH_PASSWORD_VALIDATORS",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "AUTH_PASSWORD_VALIDATORS = [\n    {\n        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',\n    },\n    {\n        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',\n    },\n    {\n        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',\n    },",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "LANGUAGE_CODE",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "LANGUAGE_CODE = 'en-us'\nTIME_ZONE = 'UTC'\nUSE_I18N = True\nUSE_TZ = True\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/5.2/howto/static-files/\nSTATIC_URL = 'static/'\n# Default primary key field type\n# https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "TIME_ZONE",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "TIME_ZONE = 'UTC'\nUSE_I18N = True\nUSE_TZ = True\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/5.2/howto/static-files/\nSTATIC_URL = 'static/'\n# Default primary key field type\n# https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\n# Media files (uploaded resumes)",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "USE_I18N",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "USE_I18N = True\nUSE_TZ = True\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/5.2/howto/static-files/\nSTATIC_URL = 'static/'\n# Default primary key field type\n# https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\n# Media files (uploaded resumes)\nMEDIA_URL = \"/media/\"",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "USE_TZ",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "USE_TZ = True\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/5.2/howto/static-files/\nSTATIC_URL = 'static/'\n# Default primary key field type\n# https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\n# Media files (uploaded resumes)\nMEDIA_URL = \"/media/\"\nMEDIA_ROOT = os.path.join(BASE_DIR, \"media\")",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "STATIC_URL",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "STATIC_URL = 'static/'\n# Default primary key field type\n# https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\n# Media files (uploaded resumes)\nMEDIA_URL = \"/media/\"\nMEDIA_ROOT = os.path.join(BASE_DIR, \"media\")\n# Allow frontend to access API during development\nCORS_ALLOW_ALL_ORIGINS = True  # dev only",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "DEFAULT_AUTO_FIELD",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\n# Media files (uploaded resumes)\nMEDIA_URL = \"/media/\"\nMEDIA_ROOT = os.path.join(BASE_DIR, \"media\")\n# Allow frontend to access API during development\nCORS_ALLOW_ALL_ORIGINS = True  # dev only",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "MEDIA_URL",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "MEDIA_URL = \"/media/\"\nMEDIA_ROOT = os.path.join(BASE_DIR, \"media\")\n# Allow frontend to access API during development\nCORS_ALLOW_ALL_ORIGINS = True  # dev only",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "MEDIA_ROOT",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "MEDIA_ROOT = os.path.join(BASE_DIR, \"media\")\n# Allow frontend to access API during development\nCORS_ALLOW_ALL_ORIGINS = True  # dev only",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "CORS_ALLOW_ALL_ORIGINS",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "CORS_ALLOW_ALL_ORIGINS = True  # dev only",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "urlpatterns",
+        "kind": 5,
+        "importPath": "backend.core.urls",
+        "description": "backend.core.urls",
+        "peekOfCode": "urlpatterns = [\n    path(\"admin/\", admin.site.urls),\n    path(\"api/resumes/\", include(\"apps.resumes.urls\")),\n    path(\"api/jobs/\", include(\"apps.jobs.urls\")),\n]\nif settings.DEBUG:\n    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)",
+        "detail": "backend.core.urls",
+        "documentation": {}
+    },
+    {
+        "label": "application",
+        "kind": 5,
+        "importPath": "backend.core.wsgi",
+        "description": "backend.core.wsgi",
+        "peekOfCode": "application = get_wsgi_application()",
+        "detail": "backend.core.wsgi",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "backend.manage",
+        "description": "backend.manage",
+        "peekOfCode": "def main():\n    \"\"\"Run administrative tasks.\"\"\"\n    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings')\n    try:\n        from django.core.management import execute_from_command_line\n    except ImportError as exc:\n        raise ImportError(\n            \"Couldn't import Django. Are you sure it's installed and \"\n            \"available on your PYTHONPATH environment variable? Did you \"\n            \"forget to activate a virtual environment?\"",
+        "detail": "backend.manage",
+        "documentation": {}
+    },
+    {
+        "label": "_Known",
+        "kind": 6,
+        "importPath": "frontend.node_modules.flatted.python.flatted",
+        "description": "frontend.node_modules.flatted.python.flatted",
+        "peekOfCode": "class _Known:\n    def __init__(self):\n        self.key = []\n        self.value = []\nclass _String:\n    def __init__(self, value):\n        self.value = value\ndef _array_keys(value):\n    keys = []\n    i = 0",
+        "detail": "frontend.node_modules.flatted.python.flatted",
+        "documentation": {}
+    },
+    {
+        "label": "_String",
+        "kind": 6,
+        "importPath": "frontend.node_modules.flatted.python.flatted",
+        "description": "frontend.node_modules.flatted.python.flatted",
+        "peekOfCode": "class _String:\n    def __init__(self, value):\n        self.value = value\ndef _array_keys(value):\n    keys = []\n    i = 0\n    for _ in value:\n        keys.append(i)\n        i += 1\n    return keys",
+        "detail": "frontend.node_modules.flatted.python.flatted",
+        "documentation": {}
+    },
+    {
+        "label": "parse",
+        "kind": 2,
+        "importPath": "frontend.node_modules.flatted.python.flatted",
+        "description": "frontend.node_modules.flatted.python.flatted",
+        "peekOfCode": "def parse(value, *args, **kwargs):\n    json = _json.loads(value, *args, **kwargs)\n    wrapped = []\n    for value in json:\n        wrapped.append(_wrap(value))\n    input = []\n    for value in wrapped:\n        if isinstance(value, _String):\n            input.append(value.value)\n        else:",
+        "detail": "frontend.node_modules.flatted.python.flatted",
+        "documentation": {}
+    },
+    {
+        "label": "stringify",
+        "kind": 2,
+        "importPath": "frontend.node_modules.flatted.python.flatted",
+        "description": "frontend.node_modules.flatted.python.flatted",
+        "peekOfCode": "def stringify(value, *args, **kwargs):\n    known = _Known()\n    input = []\n    output = []\n    i = int(_index(known, input, value))\n    while i < len(input):\n        output.append(_transform(known, input, input[i]))\n        i += 1\n    return _json.dumps(output, *args, **kwargs)",
+        "detail": "frontend.node_modules.flatted.python.flatted",
+        "documentation": {}
+    }
+]

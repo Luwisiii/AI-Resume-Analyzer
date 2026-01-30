@@ -1,0 +1,20 @@
+cd backend
+python manage.py runserver
+celery -A core.celery_app worker --loglevel=info -P solo
+celery -A core worker -l info -P solo --concurrency=1
+cd frontend
+npm run dev
+ollama serve
+ollama run mistral
+
+# AI test
+ask_model(job_generation_prompt(2))
+
+# Sync Celery test
+generate_jobs.apply(args=(5,)).get()
+
+# Async test (after fixing worker)
+generate_jobs.delay(25)
+
+# Verify DB
+Job.objects.count()
