@@ -158,6 +158,14 @@
         "documentation": {}
     },
     {
+        "label": "Resume",
+        "importPath": "apps.resumes.models",
+        "description": "apps.resumes.models",
+        "isExtraImport": true,
+        "detail": "apps.resumes.models",
+        "documentation": {}
+    },
+    {
         "label": "Job",
         "importPath": "apps.jobs.models",
         "description": "apps.jobs.models",
@@ -699,6 +707,22 @@
         "documentation": {}
     },
     {
+        "label": "patch",
+        "importPath": "unittest.mock",
+        "description": "unittest.mock",
+        "isExtraImport": true,
+        "detail": "unittest.mock",
+        "documentation": {}
+    },
+    {
+        "label": "SimpleUploadedFile",
+        "importPath": "django.core.files.uploadedfile",
+        "description": "django.core.files.uploadedfile",
+        "isExtraImport": true,
+        "detail": "django.core.files.uploadedfile",
+        "documentation": {}
+    },
+    {
         "label": "os",
         "kind": 6,
         "isExtraImport": true,
@@ -1122,6 +1146,15 @@
         "description": "backend.apps.resumes.tasks",
         "peekOfCode": "model = SentenceTransformer(\"all-MiniLM-L6-v2\")\ndef extract_text_from_pdf(file_path):\n    doc = fitz.open(file_path)\n    text = \"\"\n    for page in doc:\n        text += page.get_text(\"text\") or \"\"\n    return text.strip()\n@shared_task\ndef process_resume(resume_id):\n    \"\"\"",
         "detail": "backend.apps.resumes.tasks",
+        "documentation": {}
+    },
+    {
+        "label": "ProcessResumeTaskTest",
+        "kind": 6,
+        "importPath": "backend.apps.resumes.tests",
+        "description": "backend.apps.resumes.tests",
+        "peekOfCode": "class ProcessResumeTaskTest(TestCase):\n    @patch(\"apps.resumes.tasks.extract_text_from_pdf\")\n    @patch(\"apps.resumes.tasks.ask_model\")\n    @patch(\"apps.resumes.tasks.model.encode\")\n    def test_process_resume_success(\n        self,\n        mock_encode,\n        mock_ask_model,\n        mock_extract_text,\n    ):",
+        "detail": "backend.apps.resumes.tests",
         "documentation": {}
     },
     {

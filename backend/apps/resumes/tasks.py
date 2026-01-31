@@ -46,7 +46,7 @@ def process_resume(resume_id):
     # 2️⃣ AI SKILL EXTRACTION (🔥 FIX)
     ai_result = ask_model(skill_extraction_prompt(text))
     skills = ai_result.get("skills", [])
-
+    
     if not isinstance(skills, list):
         skills = []
 
