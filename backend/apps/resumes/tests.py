@@ -4,7 +4,7 @@ from apps.resumes.models import Resume
 from django.core.files.uploadedfile import SimpleUploadedFile
 
 
-class ProcessResumeTaskTest(TestCase):
+class TestResumeTasks(TestCase):
 
     @patch("apps.resumes.tasks.extract_text_from_pdf")
     @patch("apps.resumes.tasks.ask_model")
@@ -19,7 +19,8 @@ class ProcessResumeTaskTest(TestCase):
         mock_ask_model.return_value = {
             "skills": ["Python", "Django", "PostgreSQL"]
         }
-        mock_encode.return_value = [0.1, 0.2, 0.3]
+        # FIX: Provide a 384-dimensional vector
+        mock_encode.return_value = [0.0] * 384
 
         resume = Resume.objects.create(
             file=SimpleUploadedFile("resume.pdf", b"%PDF fake content")
@@ -40,8 +41,7 @@ class ProcessResumeTaskTest(TestCase):
             resume.ai_feedback,
             "Resume processed successfully using AI"
         )
-    
-    # 👇 PUT YOUR TEST RIGHT HERE
+
     @patch("apps.resumes.tasks.extract_text_from_pdf")
     @patch("apps.resumes.tasks.ask_model")
     @patch("apps.resumes.tasks.model.encode")
@@ -52,19 +52,22 @@ class ProcessResumeTaskTest(TestCase):
         mock_extract_text,
     ):
         mock_extract_text.return_value = "Some resume text"
-        mock_ask_model.return_value = {
-            "skills": "this should be a list"
-        }
-        mock_encode.return_value = [0.5, 0.6, 0.7]
+        mock_ask_model.return_value = {"skills": "invalid_string"}
+        mock_encode.return_value = [0.0] * 384
 
         resume = Resume.objects.create(
             file=SimpleUploadedFile("resume.pdf", b"%PDF fake content")
         )
 
         from apps.resumes.tasks import process_resume
-        process_resume(resume.id)
+        result = process_resume(resume.id)
 
         resume.refresh_from_db()
 
+        # Skills should be empty because AI response was invalid
         self.assertEqual(resume.skills, "")
+        # Embedding should still exist
         self.assertIsNotNone(resume.embedding)
+        # AI feedback indicates failure (case-insensitive)
+        self.assertIn("failed to extract skills", resume.ai_feedback.lower())
+        self.assertIn("processed", result)

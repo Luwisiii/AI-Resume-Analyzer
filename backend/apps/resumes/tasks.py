@@ -24,7 +24,7 @@ def extract_text_from_pdf(file_path):
 def process_resume(resume_id):
     """
     1️⃣ Extract text
-    2️⃣ AI skill extraction 
+    2️⃣ AI skill extraction
     3️⃣ Generate embeddings
     """
 
@@ -42,32 +42,32 @@ def process_resume(resume_id):
         return f"Resume {resume_id} has no extractable text"
 
     resume.extracted_text = text
-    
+
     # 2️⃣ AI SKILL EXTRACTION (🔥 FIX)
     ai_result = ask_model(skill_extraction_prompt(text))
     skills = ai_result.get("skills", [])
-    
+
+    # Validate AI response
     if not isinstance(skills, list):
-        skills = []
-
-    # Normalize + dedupe
-    normalized_skills = sorted(set(s.strip() for s in skills if s.strip()))
-
-    resume.skills = ", ".join(normalized_skills)
+        resume.skills = ""
+        resume.ai_feedback = "Failed to extract skills from AI"
+    else:
+        # Normalize, strip, and deduplicate
+        normalized_skills = sorted({s.strip() for s in skills if s.strip()})
+        resume.skills = ", ".join(normalized_skills)
+        resume.ai_feedback = "Resume processed successfully using AI"
 
     logger.warning("EXTRACTED SKILLS (AI):")
-    logger.warning(normalized_skills)
+    logger.warning(resume.skills)
 
-    # 3️⃣ Generate embeddings (UNCHANGED)
+    # 3️⃣ Generate embeddings
     try:
         embedding = model.encode(text)
-        resume.embedding = embedding  # pgvector compatible
+        resume.embedding = embedding  # pgvector-compatible
     except Exception as e:
         resume.ai_feedback = f"Embedding failed: {str(e)}"
         resume.save()
         return f"Resume {resume_id} embedding failed"
 
-    resume.ai_feedback = "Resume processed successfully using AI"
     resume.save()
-
     return f"Resume {resume_id} processed successfully"

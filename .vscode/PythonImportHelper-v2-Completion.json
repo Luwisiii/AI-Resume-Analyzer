@@ -1126,7 +1126,7 @@
         "kind": 2,
         "importPath": "backend.apps.resumes.tasks",
         "description": "backend.apps.resumes.tasks",
-        "peekOfCode": "def process_resume(resume_id):\n    \"\"\"\n    1️⃣ Extract text\n    2️⃣ AI skill extraction \n    3️⃣ Generate embeddings\n    \"\"\"\n    try:\n        resume = Resume.objects.get(id=resume_id)\n    except Resume.DoesNotExist:\n        return f\"Resume {resume_id} not found\"",
+        "peekOfCode": "def process_resume(resume_id):\n    \"\"\"\n    1️⃣ Extract text\n    2️⃣ AI skill extraction\n    3️⃣ Generate embeddings\n    \"\"\"\n    try:\n        resume = Resume.objects.get(id=resume_id)\n    except Resume.DoesNotExist:\n        return f\"Resume {resume_id} not found\"",
         "detail": "backend.apps.resumes.tasks",
         "documentation": {}
     },
@@ -1149,11 +1149,11 @@
         "documentation": {}
     },
     {
-        "label": "ProcessResumeTaskTest",
+        "label": "TestResumeTasks",
         "kind": 6,
         "importPath": "backend.apps.resumes.tests",
         "description": "backend.apps.resumes.tests",
-        "peekOfCode": "class ProcessResumeTaskTest(TestCase):\n    @patch(\"apps.resumes.tasks.extract_text_from_pdf\")\n    @patch(\"apps.resumes.tasks.ask_model\")\n    @patch(\"apps.resumes.tasks.model.encode\")\n    def test_process_resume_success(\n        self,\n        mock_encode,\n        mock_ask_model,\n        mock_extract_text,\n    ):",
+        "peekOfCode": "class TestResumeTasks(TestCase):\n    @patch(\"apps.resumes.tasks.extract_text_from_pdf\")\n    @patch(\"apps.resumes.tasks.ask_model\")\n    @patch(\"apps.resumes.tasks.model.encode\")\n    def test_process_resume_success(\n        self,\n        mock_encode,\n        mock_ask_model,\n        mock_extract_text,\n    ):",
         "detail": "backend.apps.resumes.tests",
         "documentation": {}
     },

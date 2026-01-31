@@ -13,7 +13,7 @@ class Resume(models.Model):
     ai_feedback = models.TextField(blank=True, null=True)
     embedding = VectorField(dimensions=384, null=True)
     uploaded_at = models.DateTimeField(default=timezone.now)
-
+    
     def __str__(self):
         return self.file.name
 
