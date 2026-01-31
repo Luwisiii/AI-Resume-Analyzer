@@ -1336,7 +1336,7 @@
         "kind": 5,
         "importPath": "backend.core.settings",
         "description": "backend.core.settings",
-        "peekOfCode": "WSGI_APPLICATION = 'core.wsgi.application'\n# Database\n# https://docs.djangoproject.com/en/5.2/ref/settings/#databases\nDATABASES = {\n   \"default\": {\n        \"ENGINE\": \"django.db.backends.postgresql\",\n        \"NAME\": \"ai_resume_db\",\n        \"USER\": \"postgres\",\n        \"PASSWORD\": \"postgres\",\n        \"HOST\": \"127.0.0.1\",",
+        "peekOfCode": "WSGI_APPLICATION = 'core.wsgi.application'\n# Database\n# https://docs.djangoproject.com/en/5.2/ref/settings/#databases\nDATABASES = {\n    \"default\": {\n        \"ENGINE\": \"django.db.backends.postgresql\",\n        \"NAME\": os.getenv(\"DB_NAME\", \"ai_resume_db\"),\n        \"USER\": os.getenv(\"DB_USER\", \"postgres\"),\n        \"PASSWORD\": os.getenv(\"DB_PASSWORD\", \"postgres\"),\n        \"HOST\": os.getenv(\"DB_HOST\", \"127.0.0.1\"),",
         "detail": "backend.core.settings",
         "documentation": {}
     },
@@ -1345,7 +1345,7 @@
         "kind": 5,
         "importPath": "backend.core.settings",
         "description": "backend.core.settings",
-        "peekOfCode": "DATABASES = {\n   \"default\": {\n        \"ENGINE\": \"django.db.backends.postgresql\",\n        \"NAME\": \"ai_resume_db\",\n        \"USER\": \"postgres\",\n        \"PASSWORD\": \"postgres\",\n        \"HOST\": \"127.0.0.1\",\n        \"PORT\": \"5433\",\n    }\n}",
+        "peekOfCode": "DATABASES = {\n    \"default\": {\n        \"ENGINE\": \"django.db.backends.postgresql\",\n        \"NAME\": os.getenv(\"DB_NAME\", \"ai_resume_db\"),\n        \"USER\": os.getenv(\"DB_USER\", \"postgres\"),\n        \"PASSWORD\": os.getenv(\"DB_PASSWORD\", \"postgres\"),\n        \"HOST\": os.getenv(\"DB_HOST\", \"127.0.0.1\"),\n        \"PORT\": os.getenv(\"DB_PORT\", \"5433\"),  \n    }\n}",
         "detail": "backend.core.settings",
         "documentation": {}
     },
