@@ -27,13 +27,9 @@ def parse_json_array(text: str):
 
 
 def ask_model_safe(prompt: str):
-    text = ask_model(prompt)
-    if isinstance(text, list):
-        return text
-    elif isinstance(text, str):
-        return parse_json_array(text)
-    else:
-        return []
+    result = ask_model(prompt)
+    return result if isinstance(result, list) else []
+
 
 
 @shared_task(bind=True, autoretry_for=(Exception,), retry_backoff=30, retry_kwargs={"max_retries": 3})
@@ -49,19 +45,13 @@ def generate_jobs(self, count=50):
         (job.title.lower().strip(), job.skills.lower().strip())
         for job in Job.objects.all()
     )
-    existing_industries = set(
-        job.industry.lower().strip() for job in Job.objects.all()
-    )
 
     for offset in range(0, count, batch_size):
         current_count = min(batch_size, count - offset)
 
-        # Retry THIS batch up to 3 times
         batch_jobs = []
         for attempt in range(3):
             print(f"🔄 Batch {offset // batch_size + 1}, attempt {attempt + 1}")
-            
-            # Prompt encourages diversity but allows IT jobs
             prompt = job_generation_prompt(current_count)
             batch_jobs = ask_model_safe(prompt)
 
@@ -93,21 +83,22 @@ def generate_jobs(self, count=50):
                 continue
             existing_jobs.add(job_key)
 
-            # Create DB entry
+            # Create or update job
             obj, created = Job.objects.get_or_create(
                 title=title,
                 industry=industry,
                 defaults={"skills": skills_text},
             )
 
-            if created:
-                try:
-                    embed_text = f"{title} {industry} {skills_text}"
-                    obj.embedding = embedding_model.encode(embed_text)
-                    obj.save(update_fields=["embedding"])
+            # Always generate embedding (even for updates)
+            try:
+                embed_text = f"{title} {industry} {skills_text}"
+                obj.embedding = embedding_model.encode(embed_text).tolist()  # ✅ store as list
+                obj.save(update_fields=["embedding", "skills"])
+                if created:
                     created_total += 1
-                except Exception as e:
-                    print("❌ Embedding failed:", e)
+            except Exception as e:
+                print("❌ Embedding failed:", e)
 
     print("✅ generate_jobs finished")
     return {

@@ -1,6 +1,7 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import axios from "axios";
 import { FaFilePdf } from "react-icons/fa";
+
 
 const ResumeUpload = () => {
   const [files, setFiles] = useState([]);
@@ -10,9 +11,11 @@ const ResumeUpload = () => {
   const [processingFiles, setProcessingFiles] = useState({});
   const dropRef = useRef(null);
 
+  // Helper to clean file names
   const formatFileName = (name) =>
     name.replace(/\s+/g, "_").replace(/[^a-zA-Z0-9._-]/g, "");
 
+  // File selection
   const handleFileChange = (e) => {
     const formattedFiles = Array.from(e.target.files).map(
       (file) =>
@@ -21,6 +24,7 @@ const ResumeUpload = () => {
     setFiles(formattedFiles);
   };
 
+  // Drag & drop handlers
   const handleDragOver = (e) => {
     e.preventDefault();
     dropRef.current.classList.add("border-blue-400", "bg-blue-50");
@@ -39,15 +43,14 @@ const ResumeUpload = () => {
       (file) =>
         new File([file], formatFileName(file.name), { type: file.type })
     );
-
     setFiles(dropped);
   };
 
-  // Poll backend until Celery processing is done
+  // Poll backend until AI processing is finished
   const waitForResumeReady = async (resumeId) => {
     let attempts = 0;
 
-    while (attempts < 20) {
+    while (attempts < 60) {
       try {
         const res = await axios.get(
           `http://127.0.0.1:8000/api/resumes/${resumeId}/`
@@ -55,11 +58,10 @@ const ResumeUpload = () => {
 
         const resume = res.data;
 
-        // Only return if extracted_text, skills, and embedding exist
+        // Check if AI processing is done
         if (
-          resume.extracted_text &&
-          resume.skills &&
-          resume.embedding
+          resume.ai_feedback?.status ===
+          "Resume processed successfully using AI"
         ) {
           return resume;
         }
@@ -67,20 +69,21 @@ const ResumeUpload = () => {
         console.warn("Polling error:", err);
       }
 
-      await new Promise((r) => setTimeout(r, 1000));
+      await new Promise((r) => setTimeout(r, 2000));
       attempts++;
     }
 
     return null;
   };
 
+  // Upload files
   const handleUpload = async () => {
     if (!files.length) {
       setMessage("Please select at least one file!");
       return;
     }
 
-    const uploaded = [];
+    setMessage("Uploading...");
     const processing = {};
 
     for (const file of files) {
@@ -107,27 +110,35 @@ const ResumeUpload = () => {
           ? res.data.data
           : [res.data.data];
 
-        data.forEach((r) => (processing[r.id] = true));
+        setUploadedFiles((prev) => [...prev, ...data]);
+
+        // Mark as processing
+        data.forEach((r) => {
+          processing[r.id] = true;
+        });
         setProcessingFiles({ ...processing });
 
-        const processed = await Promise.all(
-          data.map(async (r) => {
-            const readyResume = await waitForResumeReady(r.id);
+        // Poll each resume
+        data.forEach(async (r) => {
+          const readyResume = await waitForResumeReady(r.id);
 
-            delete processing[r.id];
-            setProcessingFiles({ ...processing });
+          setProcessingFiles((prev) => {
+            const updated = { ...prev };
+            delete updated[r.id];
+            return updated;
+          });
 
-            return readyResume || r;
-          })
-        );
-
-        uploaded.push(...processed);
+          if (readyResume) {
+            setUploadedFiles((prev) =>
+              prev.map((file) => (file.id === r.id ? readyResume : file))
+            );
+          }
+        });
       } catch (err) {
         console.error("Upload failed:", err);
       }
     }
 
-    setUploadedFiles(uploaded);
     setFiles([]);
     setUploadProgress({});
     setMessage("Files uploaded successfully!");
@@ -137,6 +148,7 @@ const ResumeUpload = () => {
     <div className="p-6 max-w-lg mx-auto bg-white shadow-lg rounded-lg">
       <h2 className="text-2xl font-bold mb-4">Upload Your Resume(s)</h2>
 
+      {/* Drag & Drop Area */}
       <div
         ref={dropRef}
         onDragOver={handleDragOver}
@@ -166,6 +178,7 @@ const ResumeUpload = () => {
         />
       </div>
 
+      {/* Upload Button */}
       <button
         onClick={handleUpload}
         className="bg-blue-500 text-white px-6 py-2 rounded"
@@ -175,6 +188,7 @@ const ResumeUpload = () => {
 
       {message && <p className="mt-4 text-green-600">{message}</p>}
 
+      {/* Uploaded Files & AI Results */}
       {uploadedFiles.length > 0 && (
         <div className="mt-6">
           <h3 className="font-semibold text-lg mb-2">Uploaded Files</h3>
@@ -194,47 +208,66 @@ const ResumeUpload = () => {
                   </a>
                 </div>
 
+                {/* Processing */}
                 {processingFiles[file.id] && (
-                  <p className="text-sm italic text-gray-500">Processing… ⏳</p>
+                  <p className="text-sm italic text-gray-500">
+                    Processing with AI… ⏳
+                  </p>
                 )}
 
-                {!processingFiles[file.id] && (
-                  <>
-                    {/* Safely render extracted skills */}
-                    {file.skills && (
-                      <p className="text-sm mt-2">
-                        <strong>Extracted Skills:</strong> {file.skills}
-                      </p>
-                    )}
+                {/* AI Feedback / Job Matches */}
+                {!processingFiles[file.id] &&
+                  (file.ai_feedback || file.job_feedback) && (
+                    <>
+                      {/* AI Feedback JSON */}
+                      {file.ai_feedback && (
+                        <pre className="text-xs bg-gray-100 p-2 rounded overflow-x-auto mt-2">
+                          {JSON.stringify(file.ai_feedback, null, 2)}
+                        </pre>
+                      )}
 
-                    {/* Safely render AI feedback */}
-                    {file.ai_feedback && typeof file.ai_feedback === "string" && (
-                      <p className="text-sm mt-1">
-                        <strong>Status:</strong> {file.ai_feedback}
-                      </p>
-                    )}
+                      {/* Extracted Skills */}
+                      {file.ai_feedback?.skills?.length > 0 && (
+                        <p className="text-sm mt-2">
+                          <strong>Extracted Skills:</strong>{" "}
+                          {file.ai_feedback.skills.join(", ")}
+                        </p>
+                      )}
 
-                    {Array.isArray(file.ai_feedback) &&
-                      file.ai_feedback.length > 0 && (
+                      {/* Status */}
+                      {file.ai_feedback?.status && (
+                        <p className="text-sm mt-1">
+                          <strong>Status:</strong> {file.ai_feedback.status}
+                        </p>
+                      )}
+
+                      {/* Job Matching */}
+                      {(file.ai_feedback?.matches?.length > 0 ||
+                        file.job_feedback?.length > 0) && (
                         <div className="mt-2 text-sm">
-                          <strong>AI Feedback:</strong>
+                          <strong>Job Matching:</strong>
                           <ul className="list-disc pl-5">
-                            {file.ai_feedback.map((job, idx) => (
-                              <li key={idx}>
-                                {job.job_title}: {job.resume_strength}%
-                                {Array.isArray(job.missing_skills) &&
-                                  job.missing_skills.length > 0 && (
-                                    <span className="text-red-500">
-                                      {" "} (Missing: {job.missing_skills.join(", ")})
+                            {(file.ai_feedback?.matches || file.job_feedback).map(
+                              (job, idx) => (
+                                <li key={idx}>
+                                  <span className="font-semibold">
+                                    {job.job_title}
+                                  </span>{" "}
+                                  - {job.resume_strength?.toFixed(2) || 0}%
+                                  {job.missing_skills?.length > 0 && (
+                                    <span>
+                                      {" "}
+                                      (Missing: {job.missing_skills.join(", ")})
                                     </span>
                                   )}
-                              </li>
-                            ))}
+                                </li>
+                              )
+                            )}
                           </ul>
                         </div>
                       )}
-                  </>
-                )}
+                    </>
+                  )}
               </li>
             ))}
           </ul>

@@ -1,19 +1,22 @@
 def skill_extraction_prompt(resume_text: str) -> str:
     return f"""
-Extract ALL professional skills from this resume.
+You are an AI that extracts professional skills from resumes.
 
-Rules:
-- Include technical, practical, and soft skills
-- Normalize variants (React.js → React, Node.js → Node)
-- Do NOT invent skills
-- Return JSON ONLY
-- Skills must be concise (1–3 words)
+INSTRUCTIONS:
+- Extract ALL technical, software, tool, and soft skills.
+- Normalize similar skills (React.js → React).
+- Do NOT invent skills.
+- Do NOT explain anything.
+- Return STRICT JSON.
+- Output MUST be a JSON object.
+- Do NOT wrap in markdown.
+- Do NOT include text before or after JSON.
 
-Format:
+FORMAT:
 {{
-  "skills": ["React", "Python", "Leadership"]
+  "skills": ["Skill1", "Skill2", "Skill3"]
 }}
 
 Resume:
-{resume_text}
+{resume_text[:4000]}
 """

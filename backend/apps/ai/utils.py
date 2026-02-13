@@ -1,12 +1,11 @@
 import requests
 import json
 import logging
-import re
 
 logger = logging.getLogger(__name__)
 
 OLLAMA_URL = "http://localhost:11434/api/generate"
-MODEL = "phi3:mini"
+MODEL = "phi3:mini"   # You can switch to llama3.1:8b-instruct later
 
 
 def ask_model(prompt: str):
@@ -17,31 +16,32 @@ def ask_model(prompt: str):
                 "model": MODEL,
                 "prompt": prompt,
                 "stream": False,
+                "format": "json",  # 🔥 Force structured JSON output
                 "options": {
-                    "temperature": 0.2,     # NOT zero
-                    "num_predict": 1024,    # Phi-3 needs room
+                    "temperature": 0.2,
+                    "num_predict": 1024,
                     "top_p": 0.9,
                 },
-                # ❌ REMOVE format=json
             },
-            timeout=120,
+            timeout=300,
         )
 
         response.raise_for_status()
-        text = response.json().get("response", "").strip()
 
-        if not text:
+        raw_text = response.json().get("response", "").strip()
+
+        if not raw_text:
             logger.warning("⚠️ Empty model response")
-            return []
+            return {}
 
-        # Extract JSON array
-        match = re.search(r"\[\s*{.*}\s*\]", text, re.DOTALL)
-        if not match:
-            logger.warning("⚠️ No JSON array found")
-            return []
-
-        return json.loads(match.group())
+        try:
+            parsed = json.loads(raw_text)
+            return parsed
+        except json.JSONDecodeError as e:
+            logger.warning(f"⚠️ JSON decode error: {e}")
+            logger.warning(f"RAW MODEL OUTPUT:\n{raw_text}")
+            return {}
 
     except Exception as e:
         logger.error(f"Ollama error: {e}")
-        return []
+        return {}

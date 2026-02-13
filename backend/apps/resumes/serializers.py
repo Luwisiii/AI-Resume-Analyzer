@@ -5,3 +5,4 @@ class ResumeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Resume
         fields = "__all__"
+    ai_feedback = serializers.JSONField()
