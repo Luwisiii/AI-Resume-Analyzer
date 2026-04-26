@@ -53,3 +53,9 @@ Node.js
 PostgreSQL (port 5433)
 Redis
 Ollama installed locally
+
+NOTE: This AI Resume Analyzer is currently under active development.
+
+Some features, including AI scoring, job matching, and UI components, are still being improved and may change without notice. The current version is functional but not yet production-ready.
+
+Feedback and suggestions are welcome as the project evolves.

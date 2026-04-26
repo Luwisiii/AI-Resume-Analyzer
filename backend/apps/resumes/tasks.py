@@ -91,12 +91,22 @@ def process_resume(resume_id):
             })
 
     matches.sort(key=lambda x: x["resume_strength"], reverse=True)
+    
+    # 5️⃣ Generate Overall Score
+    skill_score = min(len(normalized_skills) * 5, 50)  # max 50 pts
 
-    # 5️⃣ Save AI feedback
+    match_score = 0
+    if matches:
+        match_score = sum(m["resume_strength"] for m in matches) / len(matches)
+        match_score = min(match_score * 0.5, 50)  # scale to max 50 pts
+
+    overall_score = round(skill_score + match_score)
+    
     resume.ai_feedback = {
         "status": "Resume processed successfully using AI",
         "skills": normalized_skills,
-        "matches": matches
+        "matches": matches,
+        "overall_score": overall_score
     }
     resume.save(update_fields=["ai_feedback"])
 

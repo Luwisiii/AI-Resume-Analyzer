@@ -1,52 +1,140 @@
 import React from "react";
 
-const AnalysisModal = ({ open, onClose, results }) => {
-  if (!open || !results) return null;
+/* =========================
+   SCORE RING (FIXED CENTER)
+   ========================= */
+const ScoreRing = ({ score }) => {
+  const radius = 52;
+  const stroke = 10;
+  const normalizedRadius = radius - stroke * 0.5;
+  const circumference = normalizedRadius * 2 * Math.PI;
 
-  const getScoreColor = (score) => {
-    if (score >= 80) return "text-green-600";
-    if (score >= 60) return "text-yellow-600";
-    return "text-red-600";
+  const progress = Math.min(Math.max(score || 0, 0), 100);
+  const strokeDashoffset =
+    circumference - (progress / 100) * circumference;
+
+  const getColor = () => {
+    if (score >= 80) return "#4ade80";
+    if (score >= 60) return "#facc15";
+    return "#f87171";
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-xl shadow-xl p-6 relative">
-        
-        {/* Close Button */}
+    <div className="flex items-center gap-8">
+
+      {/* RING WRAPPER (for centering text inside) */}
+      <div className="relative w-[140px] h-[140px] flex items-center justify-center">
+
+        {/* SVG CIRCLE */}
+        <svg
+          height="140"
+          width="140"
+          className="rotate-[-90deg] absolute"
+        >
+          {/* Background circle */}
+          <circle
+            stroke="rgba(255,255,255,0.15)"
+            fill="transparent"
+            strokeWidth={stroke}
+            r={normalizedRadius}
+            cx="70"
+            cy="70"
+          />
+
+          {/* Progress circle */}
+          <circle
+            stroke={getColor()}
+            fill="transparent"
+            strokeWidth={stroke}
+            strokeLinecap="round"
+            strokeDasharray={`${circumference} ${circumference}`}
+            strokeDashoffset={strokeDashoffset}
+            r={normalizedRadius}
+            cx="70"
+            cy="70"
+            style={{
+              transition: "stroke-dashoffset 1.2s ease-out",
+            }}
+          />
+        </svg>
+
+        {/* 🔥 CENTER SCORE (FIXED) */}
+        <div className="text-center z-10">
+          <div className="text-3xl font-bold text-white">
+            {score}
+          </div>
+          <div className="text-xs text-white/60">
+            Score
+          </div>
+        </div>
+
+      </div>
+
+      {/* RIGHT TEXT */}
+      <div>
+        <h3 className="text-lg font-semibold">
+          Overall Score
+        </h3>
+        <p className="text-white/60 text-sm">
+          AI-powered resume evaluation
+        </p>
+      </div>
+
+    </div>
+  );
+};
+
+/* =========================
+   MODAL
+   ========================= */
+const AnalysisModal = ({ open, onClose, results }) => {
+  if (!open || !results) return null;
+
+  return (
+    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 px-4">
+
+      {/* MODAL */}
+      <div className="w-full max-w-4xl max-h-[90vh] overflow-y-auto 
+                      bg-white/10 backdrop-blur-md 
+                      border border-white/20 
+                      rounded-3xl shadow-2xl 
+                      text-white p-8 relative">
+
+        {/* Close */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-gray-500 hover:text-black"
+          className="absolute top-5 right-5 text-black/70 hover:text-yellow-300 text-xl transition"
         >
           ✕
         </button>
 
         {/* Header */}
-        <h2 className="text-2xl font-bold mb-1">Resume Analysis</h2>
-        <p className="text-gray-500 mb-6">{results.fileName}</p>
+        <h2 className="text-3xl font-bold mb-1">
+          Resume Analysis
+        </h2>
+        <p className="text-white/60 mb-8">
+          {results.fileName}
+        </p>
 
-        {/* Overall Score */}
-        <div className="bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-200 rounded-lg p-6 mb-6 flex justify-between items-center">
-          <div>
-            <h3 className="font-semibold text-lg">Overall Score</h3>
-            <p className="text-gray-600 text-sm">
-              AI-powered resume evaluation
-            </p>
-          </div>
-          <div className={`text-5xl font-bold ${getScoreColor(results.overallScore)}`}>
-            {results.overallScore}
-          </div>
+        {/* SCORE RING */}
+        <div className="bg-white/10 border border-white/20 rounded-2xl p-6 mb-8">
+          <ScoreRing score={results.overallScore} />
         </div>
 
-        {/* Skills */}
+        {/* SKILLS */}
         {results.skills?.length > 0 && (
-          <div className="mb-6">
-            <h4 className="font-semibold mb-2">Extracted Skills</h4>
+          <div className="mb-8">
+            <h4 className="text-lg font-semibold mb-3">
+              Extracted Skills
+            </h4>
+
             <div className="flex flex-wrap gap-2">
               {results.skills.map((skill, i) => (
                 <span
                   key={i}
-                  className="bg-gray-100 px-3 py-1 rounded-full text-sm"
+                  className="bg-white/10 border border-white/20 
+                             px-3 py-1 rounded-full text-sm 
+                             text-white/80"
                 >
                   {skill}
                 </span>
@@ -55,23 +143,37 @@ const AnalysisModal = ({ open, onClose, results }) => {
           </div>
         )}
 
-        {/* Job Matches */}
+        {/* JOB MATCHES */}
         {results.matches?.length > 0 && (
           <div>
-            <h4 className="font-semibold mb-3">Job Matches</h4>
-            <div className="space-y-3">
+            <h4 className="text-lg font-semibold mb-4">
+              Job Matches
+            </h4>
+
+            <div className="space-y-4">
               {results.matches.map((job, i) => (
-                <div key={i} className="border rounded-lg p-4">
-                  <div className="flex justify-between">
-                    <span className="font-semibold">{job.job_title}</span>
-                    <span className="text-blue-600 font-bold">
+                <div
+                  key={i}
+                  className="bg-white/10 border border-white/20 
+                             rounded-2xl p-5 
+                             hover:bg-white/15 transition"
+                >
+                  <div className="flex justify-between items-center">
+                    <span className="font-semibold text-white">
+                      {job.job_title}
+                    </span>
+
+                    <span className="text-yellow-300 font-bold">
                       {job.resume_strength?.toFixed(2) || 0}%
                     </span>
                   </div>
 
                   {job.missing_skills?.length > 0 && (
-                    <p className="text-sm text-gray-500 mt-1">
-                      Missing: {job.missing_skills.join(", ")}
+                    <p className="text-sm text-white/60 mt-2">
+                      <span className="text-white/80">
+                        Missing:
+                      </span>{" "}
+                      {job.missing_skills.join(", ")}
                     </p>
                   )}
                 </div>
@@ -79,6 +181,7 @@ const AnalysisModal = ({ open, onClose, results }) => {
             </div>
           </div>
         )}
+
       </div>
     </div>
   );

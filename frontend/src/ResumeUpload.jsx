@@ -56,8 +56,10 @@ const ResumeUpload = () => {
     while (true) {
       try {
         const res = await axios.get(`http://127.0.0.1:8000/api/resumes/${resumeId}/`);
+        console.log("RAW API RESPONSE:", res.data);
+        console.log("AI FEEDBACK:", res.data.ai_feedback);
         const resume = res.data;
-
+        
         if (resume.ai_feedback?.status === "Resume processed successfully using AI") {
           return resume;
         }
@@ -92,7 +94,7 @@ const ResumeUpload = () => {
           formData,
           { headers: { "Content-Type": "multipart/form-data" } }
         );
-
+        
         const uploaded = Array.isArray(res.data.data) ? res.data.data : [res.data.data];
         uploadedResumes.push(...uploaded);
 
@@ -118,10 +120,11 @@ const ResumeUpload = () => {
 
           // Update modal data and show
           setAnalysisData({
-            fileName: readyResume.file.split("/").pop(),
-            skills: readyResume.ai_feedback?.skills || [],
-            matches: readyResume.ai_feedback?.matches || [],
-          });
+          fileName: readyResume.file.split("/").pop(),
+          overallScore: readyResume.ai_feedback?.overall_score,
+          skills: readyResume.ai_feedback?.skills || [],
+          matches: readyResume.ai_feedback?.matches || [],
+        });
           setModalOpen(true);
           setMessage("");
         } catch (err) {
