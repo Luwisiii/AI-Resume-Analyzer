@@ -7,14 +7,33 @@ npm run dev
 ollama serve
 ollama run mistral
 
-# AI test
-ask_model(job_generation_prompt(2))
+▶️ How to Run the Project Locally
+Prerequisites
+Python
+Node.js
+PostgreSQL (port 5433 per your settings)
+Redis
+Ollama
 
-# Sync Celery test
-generate_jobs.apply(args=(5,)).get()
+1) Start Ollama and get the model
+ollama pull phi3:mini
+ollama run phi3:mini
 
-# Async test (after fixing worker)
-generate_jobs.delay(25)
+2) Start Redis
+redis-server
 
-# Verify DB
-Job.objects.count()
+3) Setup Backend (Django)
+python -m venv venv
+venv\Scripts\activate
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py runserver
+
+4) Start Celery worker (required)
+celery -A core worker -l info
+
+5) Start Frontend (React)
+npm install
+npm start
+
+6) Open localhost

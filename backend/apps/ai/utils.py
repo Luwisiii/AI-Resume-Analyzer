@@ -5,7 +5,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 OLLAMA_URL = "http://localhost:11434/api/generate"
-MODEL = "phi3:mini"   # You can switch to llama3.1:8b-instruct later
+MODEL = "phi3:mini"   
 
 
 def ask_model(prompt: str):
@@ -16,7 +16,7 @@ def ask_model(prompt: str):
                 "model": MODEL,
                 "prompt": prompt,
                 "stream": False,
-                "format": "json",  # 🔥 Force structured JSON output
+                "format": "json",  
                 "options": {
                     "temperature": 0.2,
                     "num_predict": 1024,

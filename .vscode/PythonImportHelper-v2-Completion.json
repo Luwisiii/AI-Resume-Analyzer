@@ -869,7 +869,7 @@
         "kind": 2,
         "importPath": "backend.apps.ai.utils",
         "description": "backend.apps.ai.utils",
-        "peekOfCode": "def ask_model(prompt: str):\n    try:\n        response = requests.post(\n            OLLAMA_URL,\n            json={\n                \"model\": MODEL,\n                \"prompt\": prompt,\n                \"stream\": False,\n                \"format\": \"json\",  # 🔥 Force structured JSON output\n                \"options\": {",
+        "peekOfCode": "def ask_model(prompt: str):\n    try:\n        response = requests.post(\n            OLLAMA_URL,\n            json={\n                \"model\": MODEL,\n                \"prompt\": prompt,\n                \"stream\": False,\n                \"format\": \"json\",  \n                \"options\": {",
         "detail": "backend.apps.ai.utils",
         "documentation": {}
     },
@@ -878,7 +878,7 @@
         "kind": 5,
         "importPath": "backend.apps.ai.utils",
         "description": "backend.apps.ai.utils",
-        "peekOfCode": "logger = logging.getLogger(__name__)\nOLLAMA_URL = \"http://localhost:11434/api/generate\"\nMODEL = \"phi3:mini\"   # You can switch to llama3.1:8b-instruct later\ndef ask_model(prompt: str):\n    try:\n        response = requests.post(\n            OLLAMA_URL,\n            json={\n                \"model\": MODEL,\n                \"prompt\": prompt,",
+        "peekOfCode": "logger = logging.getLogger(__name__)\nOLLAMA_URL = \"http://localhost:11434/api/generate\"\nMODEL = \"phi3:mini\"   \ndef ask_model(prompt: str):\n    try:\n        response = requests.post(\n            OLLAMA_URL,\n            json={\n                \"model\": MODEL,\n                \"prompt\": prompt,",
         "detail": "backend.apps.ai.utils",
         "documentation": {}
     },
@@ -887,7 +887,7 @@
         "kind": 5,
         "importPath": "backend.apps.ai.utils",
         "description": "backend.apps.ai.utils",
-        "peekOfCode": "OLLAMA_URL = \"http://localhost:11434/api/generate\"\nMODEL = \"phi3:mini\"   # You can switch to llama3.1:8b-instruct later\ndef ask_model(prompt: str):\n    try:\n        response = requests.post(\n            OLLAMA_URL,\n            json={\n                \"model\": MODEL,\n                \"prompt\": prompt,\n                \"stream\": False,",
+        "peekOfCode": "OLLAMA_URL = \"http://localhost:11434/api/generate\"\nMODEL = \"phi3:mini\"   \ndef ask_model(prompt: str):\n    try:\n        response = requests.post(\n            OLLAMA_URL,\n            json={\n                \"model\": MODEL,\n                \"prompt\": prompt,\n                \"stream\": False,",
         "detail": "backend.apps.ai.utils",
         "documentation": {}
     },
@@ -896,7 +896,7 @@
         "kind": 5,
         "importPath": "backend.apps.ai.utils",
         "description": "backend.apps.ai.utils",
-        "peekOfCode": "MODEL = \"phi3:mini\"   # You can switch to llama3.1:8b-instruct later\ndef ask_model(prompt: str):\n    try:\n        response = requests.post(\n            OLLAMA_URL,\n            json={\n                \"model\": MODEL,\n                \"prompt\": prompt,\n                \"stream\": False,\n                \"format\": \"json\",  # 🔥 Force structured JSON output",
+        "peekOfCode": "MODEL = \"phi3:mini\"   \ndef ask_model(prompt: str):\n    try:\n        response = requests.post(\n            OLLAMA_URL,\n            json={\n                \"model\": MODEL,\n                \"prompt\": prompt,\n                \"stream\": False,\n                \"format\": \"json\",  ",
         "detail": "backend.apps.ai.utils",
         "documentation": {}
     },

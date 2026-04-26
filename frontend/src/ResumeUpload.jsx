@@ -2,6 +2,8 @@ import React, { useState, useRef } from "react";
 import axios from "axios";
 import { FaFilePdf } from "react-icons/fa";
 import AnalysisModal from "./AnalysisModal";
+import { DocumentMagnifyingGlassIcon } from "@heroicons/react/24/solid";
+import Logo from "./assets/ai1.png";
 
 const ResumeUpload = () => {
   const [files, setFiles] = useState([]);
@@ -132,66 +134,108 @@ const ResumeUpload = () => {
       setMessage("Upload failed, check console");
     }
   };
+  
+return (
+  <>
+    <div className="min-h-screen flex bg-gradient-to-br from-[#3b3a73] via-[#7471c6] to-[#d6d4ff] text-white">
+      
+      
+      {/* LEFT SIDE */}
+      <div className="flex-1 flex flex-col justify-center px-20">
+        
+        {/* Title + Icon side by side */}
+        <div className="flex items-center gap-4 mb-6">
+          <img
+            src={Logo}
+            alt="AI Resume Analyzer Logo"
+            className="object-contain w-16 h-16 text-yellow-300 drop-shadow-lg  transition transform hover:scale-110"
+          />
+          
+          <h1 className="text-6xl font-extrabold leading-tight">
+            AI Resume Analyzer
+          </h1>
+        </div>
+        
+        <p className="text-lg text-gray-200 max-w-md mb-8">
+          Upload your resume and let our AI analyze your skills,
+          calculate your score, and match you with the best jobs instantly.
+        </p>
 
-  return (
-    <>
-      <div className="p-8 max-w-xl mx-auto bg-white shadow-xl rounded-2xl">
-        <h2 className="text-2xl font-bold mb-6 text-center">Upload Your Resume</h2>
+        <button className="bg-yellow-300 text-black px-8 py-3 rounded-full font-semibold w-fit hover:scale-105 transition">
+          Get Started
+        </button>
+      </div>
+      
 
-        {/* Drag & Drop Area */}
-        <div
-          ref={dropRef}
-          onDragOver={handleDragOver}
-          onDragLeave={handleDragLeave}
-          onDrop={handleDrop}
-          onClick={() => dropRef.current.querySelector("input").click()}
-          className="border-2 border-dashed p-8 text-center cursor-pointer rounded-xl transition hover:bg-gray-50"
-        >
-          {files.length ? (
-            files.map((file) => (
-              <div key={file.name} className="flex items-center justify-center gap-2">
-                <FaFilePdf className="text-red-600" />
-                <span>{file.name}</span>
-              </div>
-            ))
-          ) : (
-            <p className="text-gray-500">Drag & drop your resume here or click to select</p>
+      {/* RIGHT SIDE */}
+      <div className="flex-1 flex items-center justify-center">
+        <div className="w-[420px] bg-white/10 backdrop-blur-md p-8 rounded-3xl shadow-2xl border border-white/20">
+
+          <h2 className="text-2xl font-bold mb-6 text-center">
+            Upload Resume
+          </h2>
+
+          {/* Drag & Drop */}
+          <div
+            ref={dropRef}
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+            onDrop={handleDrop}
+            onClick={() => dropRef.current.querySelector("input").click()}
+            className="border-2 border-dashed border-white/40 p-8 text-center cursor-pointer rounded-2xl transition hover:bg-white/10"
+          >
+            {files.length ? (
+              files.map((file) => (
+                <div key={file.name} className="flex items-center justify-center gap-2">
+                  <FaFilePdf className="text-red-400" />
+                  <span>{file.name}</span>
+                </div>
+              ))
+            ) : (
+              <p className="text-gray-200">
+                Drag & drop your resume here or click to select
+              </p>
+            )}
+
+            <input
+              type="file"
+              accept=".pdf"
+              multiple
+              onChange={handleFileChange}
+              className="hidden"
+            />
+          </div>
+
+          <button
+            onClick={handleUpload}
+            className="w-full mt-6 bg-yellow-300 text-black py-3 rounded-full font-semibold hover:scale-105 transition"
+          >
+            Analyze Resume
+          </button>
+
+          {message && (
+            <p className="mt-4 text-center text-yellow-200">
+              {message}
+            </p>
           )}
 
-          <input
-            type="file"
-            accept=".pdf"
-            multiple
-            onChange={handleFileChange}
-            className="hidden"
-          />
+          {Object.keys(processingFiles).length > 0 && (
+            <p className="text-center mt-4 text-gray-300 italic">
+              Processing with AI…
+            </p>
+          )}
         </div>
-
-        {/* Upload Button */}
-        <button
-          onClick={handleUpload}
-          className="w-full mt-6 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-semibold transition"
-        >
-          Analyze Resume
-        </button>
-
-        {/* Message */}
-        {message && <p className="mt-4 text-center text-green-600">{message}</p>}
-
-        {/* Processing Indicator */}
-        {Object.keys(processingFiles).length > 0 && (
-          <p className="text-center mt-4 text-gray-500 italic">Processing with AI… ⏳</p>
-        )}
       </div>
+    </div>
 
-      {/* 🔥 Analysis Modal */}
-      <AnalysisModal
-        open={modalOpen}
-        onClose={() => setModalOpen(false)}
-        results={analysisData}
-      />
-    </>
-  );
+    <AnalysisModal
+      open={modalOpen}
+      onClose={() => setModalOpen(false)}
+      results={analysisData}
+    />
+  </>
+);
+
 };
 
 export default ResumeUpload;
