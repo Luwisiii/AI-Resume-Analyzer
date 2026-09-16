@@ -1,52 +1,52 @@
-import React, { useState, useRef } from "react";
-import axios from "axios";
-import { FaFilePdf } from "react-icons/fa";
+import React, { useState } from "react";
+import api from "./api";
 import AnalysisModal from "./AnalysisModal";
-import { DocumentMagnifyingGlassIcon } from "@heroicons/react/24/solid";
-import Logo from "./assets/ai1.png";
+import Mark from "./Mark";
 
-const ResumeUpload = () => {
+const SUCCESS_STATUS = "Resume processed successfully using AI";
+
+const STEPS = [
+  ["Parse", "Text and skills are pulled out of the PDF."],
+  ["Score", "Half the score is the range of skills found, half is how well your top matches line up."],
+  ["Match", "Your skills are ranked against every job posting on file."],
+];
+
+const ResumeUpload = ({ username, onSignOut }) => {
   const [files, setFiles] = useState([]);
   const [message, setMessage] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [dragging, setDragging] = useState(false);
   const [processingFiles, setProcessingFiles] = useState({});
   const [modalOpen, setModalOpen] = useState(false);
   const [analysisData, setAnalysisData] = useState(null);
-  const dropRef = useRef(null);
 
   // Clean filename
   const formatFileName = (name) =>
     name.replace(/\s+/g, "_").replace(/[^a-zA-Z0-9._-]/g, "");
 
-  // File select
-  const handleFileChange = (e) => {
-    const formattedFiles = Array.from(e.target.files).map(
-      (file) =>
-        new File([file], formatFileName(file.name), { type: file.type })
+  const rename = (list) =>
+    Array.from(list).map(
+      (file) => new File([file], formatFileName(file.name), { type: file.type })
     );
-    setFiles(formattedFiles);
-  };
+
+  // File select
+  const handleFileChange = (e) => setFiles(rename(e.target.files));
 
   // Drag & Drop
   const handleDragOver = (e) => {
     e.preventDefault();
-    dropRef.current.classList.add("border-blue-400", "bg-blue-50");
+    setDragging(true);
   };
 
   const handleDragLeave = (e) => {
     e.preventDefault();
-    dropRef.current.classList.remove("border-blue-400", "bg-blue-50");
+    setDragging(false);
   };
 
   const handleDrop = (e) => {
     e.preventDefault();
-    dropRef.current.classList.remove("border-blue-400", "bg-blue-50");
-
-    const dropped = Array.from(e.dataTransfer.files).map(
-      (file) =>
-        new File([file], formatFileName(file.name), { type: file.type })
-    );
-
-    setFiles(dropped);
+    setDragging(false);
+    setFiles(rename(e.dataTransfer.files));
   };
 
   // Poll backend until AI is done
@@ -54,32 +54,38 @@ const ResumeUpload = () => {
     const start = Date.now();
 
     while (true) {
-      try {
-        const res = await axios.get(`http://127.0.0.1:8000/api/resumes/${resumeId}/`);
-        console.log("RAW API RESPONSE:", res.data);
-        console.log("AI FEEDBACK:", res.data.ai_feedback);
-        const resume = res.data;
-        
-        if (resume.ai_feedback?.status === "Resume processed successfully using AI") {
-          return resume;
-        }
-      } catch (err) {
-        console.warn("Polling error:", err);
+      const res = await api.get(`/api/resumes/${resumeId}/`);
+      const status = res.data.ai_feedback?.status;
+
+      // Any status at all is terminal — the task always writes one, success or
+      // failure. Waiting only for the success string turns a failed analysis
+      // into a five-minute hang.
+      if (status) {
+        if (status !== SUCCESS_STATUS) throw new Error(status);
+        return res.data;
       }
 
       if (Date.now() - start > timeout) {
-        throw new Error("Timeout waiting for AI processing");
+        throw new Error("Timed out waiting for AI processing");
       }
 
       await new Promise((r) => setTimeout(r, interval));
     }
   };
 
+  const clearProcessing = (id) =>
+    setProcessingFiles((prev) => {
+      const updated = { ...prev };
+      delete updated[id];
+      return updated;
+    });
+
   // Upload
   const handleUpload = async () => {
-    if (!files.length) return setMessage("Please select at least one file!");
+    if (!files.length) return setMessage("Choose a PDF first.");
 
-    setMessage("Uploading...");
+    setBusy(true);
+    setMessage("Uploading…");
     setProcessingFiles({});
 
     try {
@@ -89,156 +95,206 @@ const ResumeUpload = () => {
         const formData = new FormData();
         formData.append("file", file);
 
-        const res = await axios.post(
-          "http://127.0.0.1:8000/api/resumes/upload/",
-          formData,
-          { headers: { "Content-Type": "multipart/form-data" } }
-        );
-        
+        const res = await api.post("/api/resumes/upload/", formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+
         const uploaded = Array.isArray(res.data.data) ? res.data.data : [res.data.data];
         uploadedResumes.push(...uploaded);
 
-        const processingCopy = { ...processingFiles };
-        uploaded.forEach((r) => (processingCopy[r.id] = true));
-        setProcessingFiles(processingCopy);
+        setProcessingFiles((prev) => {
+          const next = { ...prev };
+          uploaded.forEach((r) => (next[r.id] = true));
+          return next;
+        });
       }
 
       setFiles([]);
-      setMessage("Files uploaded successfully! Processing with AI... ⏳");
+      setMessage("Uploaded. Reading the document…");
 
-      // 🔹 Poll backend for each uploaded resume sequentially
+      // Poll backend for each uploaded resume sequentially
       for (const r of uploadedResumes) {
         try {
           const readyResume = await waitForResumeReady(r.id);
+          clearProcessing(r.id);
 
-          // Remove from processing indicator
-          setProcessingFiles((prev) => {
-            const updated = { ...prev };
-            delete updated[r.id];
-            return updated;
-          });
-
-          // Update modal data and show
           setAnalysisData({
-          fileName: readyResume.file.split("/").pop(),
-          overallScore: readyResume.ai_feedback?.overall_score,
-          skills: readyResume.ai_feedback?.skills || [],
-          matches: readyResume.ai_feedback?.matches || [],
-        });
+            fileName: readyResume.file.split("/").pop(),
+            overallScore: readyResume.ai_feedback?.overall_score,
+            skills: readyResume.ai_feedback?.skills || [],
+            matches: readyResume.ai_feedback?.matches || [],
+          });
           setModalOpen(true);
           setMessage("");
         } catch (err) {
-          console.error("Error polling resume:", err);
-          setMessage("Error processing resume with AI");
+          clearProcessing(r.id);
+          setMessage(err.message || "The analysis did not finish. Try uploading again.");
         }
       }
     } catch (err) {
-      console.error("Upload failed:", err);
-      setMessage("Upload failed, check console");
+      // Surface the server's reason (file too large, not a PDF) instead of
+      // sending the user to the console for it.
+      const detail = err.response?.data;
+      setMessage(
+        detail?.errors
+          ? Object.values(detail.errors).join(" ")
+          : detail?.error || "Upload failed"
+      );
+    } finally {
+      setBusy(false);
     }
   };
-  
-return (
-  <>
-    <div className="min-h-screen flex bg-gradient-to-br from-[#3b3a73] via-[#7471c6] to-[#d6d4ff] text-white">
-      
-      
-      {/* LEFT SIDE */}
-      <div className="flex-1 flex flex-col justify-center px-20">
-        
-        {/* Title + Icon side by side */}
-        <div className="flex items-center gap-4 mb-6">
-          <img
-            src={Logo}
-            alt="AI Resume Analyzer Logo"
-            className="object-contain w-16 h-16 text-yellow-300 drop-shadow-lg  transition transform hover:scale-110"
-          />
-          
-          <h1 className="text-6xl font-extrabold leading-tight">
-            AI Resume Analyzer
-          </h1>
-        </div>
-        
-        <p className="text-lg text-gray-200 max-w-md mb-8">
-          Upload your resume and let our AI analyze your skills,
-          calculate your score, and match you with the best jobs instantly.
-        </p>
 
-        <button className="bg-yellow-300 text-black px-8 py-3 rounded-full font-semibold w-fit hover:scale-105 transition">
-          Get Started
-        </button>
-      </div>
-      
+  const processingCount = Object.keys(processingFiles).length;
 
-      {/* RIGHT SIDE */}
-      <div className="flex-1 flex items-center justify-center">
-        <div className="w-[420px] bg-white/10 backdrop-blur-md p-8 rounded-3xl shadow-2xl border border-white/20">
+  return (
+    <>
+      <div className="min-h-screen">
+        <header className="border-b border-rule">
+          <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-4 sm:px-8">
+            <div className="flex items-center gap-2.5">
+              <Mark className="h-6 w-6" />
+              <span className="text-[15px] font-semibold tracking-tight">Resume Analyzer</span>
+            </div>
 
-          <h2 className="text-2xl font-bold mb-6 text-center">
-            Upload Resume
-          </h2>
+            <div className="flex items-center gap-4">
+              <span className="hidden font-mono text-[11px] text-muted sm:inline">
+                {username}
+              </span>
+              <button
+                onClick={onSignOut}
+                className="font-mono text-[11px] uppercase tracking-[0.16em] text-muted
+                           underline decoration-rule underline-offset-4 transition-colors hover:text-stamp"
+              >
+                Sign out
+              </button>
+            </div>
+          </div>
+        </header>
 
-          {/* Drag & Drop */}
-          <div
-            ref={dropRef}
-            onDragOver={handleDragOver}
-            onDragLeave={handleDragLeave}
-            onDrop={handleDrop}
-            onClick={() => dropRef.current.querySelector("input").click()}
-            className="border-2 border-dashed border-white/40 p-8 text-center cursor-pointer rounded-2xl transition hover:bg-white/10"
-          >
-            {files.length ? (
-              files.map((file) => (
-                <div key={file.name} className="flex items-center justify-center gap-2">
-                  <FaFilePdf className="text-red-400" />
-                  <span>{file.name}</span>
-                </div>
-              ))
-            ) : (
-              <p className="text-gray-200">
-                Drag & drop your resume here or click to select
-              </p>
-            )}
+        <main
+          className="mx-auto grid max-w-6xl content-center gap-12 px-5 py-14 sm:px-8
+                     lg:min-h-[calc(100vh-57px)] lg:grid-cols-[1.1fr_1fr] lg:gap-16 lg:py-16"
+        >
+          {/* The pitch. On a phone it sits above the sheet; the steps drop below it. */}
+          <div className="animate-rise lg:col-start-1 lg:row-start-1">
+            <p className="label">Resume intake</p>
 
-            <input
-              type="file"
-              accept=".pdf"
-              multiple
-              onChange={handleFileChange}
-              className="hidden"
-            />
+            <h1 className="mt-4 max-w-[15ch] text-[2rem] font-bold leading-[1.05] tracking-[-0.03em] sm:text-[3.25rem]">
+              Read your resume the way a hiring system reads it.
+            </h1>
+
+            <p className="mt-6 max-w-md text-[15px] leading-relaxed text-muted">
+              Upload a PDF. You get back the skills it can actually find, a score out of 100,
+              and the open postings your document ranks against.
+            </p>
           </div>
 
-          <button
-            onClick={handleUpload}
-            className="w-full mt-6 bg-yellow-300 text-black py-3 rounded-full font-semibold hover:scale-105 transition"
+          {/* The intake sheet */}
+          <div
+            className="animate-rise lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:self-center"
+            style={{ animationDelay: "60ms" }}
           >
-            Analyze Resume
-          </button>
+            <div className="sheet overflow-hidden p-6 sm:p-7">
+              {/* Header band in the same stock as the report's bars. */}
+              <div
+                className="-mx-6 -mt-6 mb-7 flex items-baseline justify-between border-b border-rule
+                           bg-bar px-6 py-3 sm:-mx-7 sm:-mt-7 sm:px-7"
+              >
+                <p className="label">Upload</p>
+                <p className="font-mono text-[11px] text-muted">PDF · max 5 MB</p>
+              </div>
 
-          {message && (
-            <p className="mt-4 text-center text-yellow-200">
-              {message}
-            </p>
-          )}
+              <div
+                onDragOver={handleDragOver}
+                onDragLeave={handleDragLeave}
+                onDrop={handleDrop}
+                className={`rounded-sheet border border-dashed p-10 text-center transition-colors
+                            focus-within:border-stamp ${
+                              dragging ? "border-stamp bg-bar" : "border-rule hover:bg-paper"
+                            }`}
+              >
+                {files.length ? (
+                  <ul className="space-y-2 text-left">
+                    {files.map((file) => (
+                      <li
+                        key={file.name}
+                        className="flex items-baseline justify-between gap-3 font-mono text-[12px]"
+                      >
+                        <span className="truncate">{file.name}</span>
+                        <span className="shrink-0 text-muted">
+                          {Math.max(1, Math.round(file.size / 1024))} KB
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="text-sm text-muted">Drop your resume here</p>
+                )}
 
-          {Object.keys(processingFiles).length > 0 && (
-            <p className="text-center mt-4 text-gray-300 italic">
-              Processing with AI…
-            </p>
-          )}
-        </div>
+                <label
+                  htmlFor="resume-input"
+                  className="mt-4 inline-block cursor-pointer text-sm font-medium text-stamp
+                             underline underline-offset-4"
+                >
+                  {files.length ? "Choose a different file" : "or browse files"}
+                </label>
+
+                <input
+                  id="resume-input"
+                  type="file"
+                  accept=".pdf,application/pdf"
+                  multiple
+                  onChange={handleFileChange}
+                  className="sr-only"
+                />
+              </div>
+
+              <button onClick={handleUpload} disabled={busy} className="btn mt-6 w-full">
+                {busy ? "Analyzing…" : "Analyze resume"}
+              </button>
+
+              {busy && (
+                <div className="mt-5 h-px w-full overflow-hidden bg-rule" aria-hidden="true">
+                  <div className="h-px w-1/4 animate-feed bg-stamp" />
+                </div>
+              )}
+
+              <div role="status" aria-live="polite" className="mt-4 min-h-[1.25rem]">
+                {message && <p className="font-mono text-[11px] text-muted">{message}</p>}
+                {processingCount > 0 && (
+                  <p className="mt-1 font-mono text-[11px] text-muted">
+                    {processingCount} in the queue
+                  </p>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* What happens to the file, in order */}
+          <ol className="max-w-md border-t border-rule lg:col-start-1 lg:row-start-2 lg:self-start">
+            {STEPS.map(([name, detail], i) => (
+              <li key={name} className="flex gap-5 border-b border-rule py-4">
+                <span className="font-mono text-[11px] text-muted">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <div>
+                  <p className="text-sm font-semibold tracking-tight">{name}</p>
+                  <p className="mt-1 text-sm leading-relaxed text-muted">{detail}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </main>
       </div>
-    </div>
 
-    <AnalysisModal
-      open={modalOpen}
-      onClose={() => setModalOpen(false)}
-      results={analysisData}
-    />
-  </>
-);
-
+      <AnalysisModal
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        results={analysisData}
+      />
+    </>
+  );
 };
 
 export default ResumeUpload;
