@@ -2,6 +2,7 @@
 
 import pgvector.django.vector
 from django.db import migrations, models
+from pgvector.django import VectorExtension
 
 
 class Migration(migrations.Migration):
@@ -12,6 +13,10 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
+        # Must precede the first vector column: a freshly created database (the
+        # test database, or any new deploy) has no `vector` type without it.
+        # Idempotent, so databases that already have the extension are unaffected.
+        VectorExtension(),
         migrations.CreateModel(
             name='Job',
             fields=[

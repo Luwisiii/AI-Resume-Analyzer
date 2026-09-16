@@ -1,26 +1,34 @@
-def job_generation_prompt(count=5):
+def job_skill_extraction_prompt(descriptions, chars_per_posting: int = 600) -> str:
+    """Skills for several job postings in one call.
+
+    Postings are keyed by number rather than returned as an array so that a
+    posting the model skips leaves a hole instead of shifting every later result.
+    """
+    listing = "\n\n".join(
+        f"### {i}\n{(text or '').strip()[:chars_per_posting]}"
+        for i, text in enumerate(descriptions)
+    )
+
     return f"""
-Generate {count} realistic job roles.
+You are an AI that extracts professional skills from job postings.
 
-Return JSON ONLY.
-Output must be a valid JSON array.
+INSTRUCTIONS:
+- Extract ALL technical, software, tool, and soft skills for EACH posting.
+- Normalize similar skills (React.js → React).
+- Do NOT invent skills. A posting that names none gets an empty array.
+- Do NOT explain anything.
+- Return STRICT JSON.
+- Output MUST be a JSON object keyed by the posting number as a string.
+- Include a key for EVERY posting number below, even if its array is empty.
+- Do NOT wrap in markdown.
+- Do NOT include text before or after JSON.
 
-Rules:
-- Diversify industries beyond Technology or Software
-- Each job must contain:
-  - title (string)
-  - industry (string)
-  - skills (array of lowercase strings)
-- Skills must be 1–3 words each
-- Skills must be lowercase
-- No duplicate job titles within the response
+FORMAT:
+{{
+  "0": ["Skill1", "Skill2"],
+  "1": []
+}}
 
-Format:
-[
-  {{
-    "title": "backend developer",
-    "industry": "software",
-    "skills": ["python", "django"]
-  }}
-]
+Job postings:
+{listing}
 """

@@ -1,109 +1,63 @@
+from django.conf import settings
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
+
 from .models import Resume
 from .serializers import ResumeSerializer
 from .tasks import process_resume
-from apps.jobs.models import Job
+
+PDF_MAGIC = b"%PDF-"
 
 
-def get_resume_feedback(resume_skills, jobs):
-    feedback = []
-    resume_skills_set = {s.strip().lower() for s in resume_skills if s}
+def validate_pdf(upload):
+    """Returns an error string, or None if the upload looks like a real PDF.
 
-    for job in jobs:
-        job_skills_set = (
-            {s.strip().lower() for s in job.skills.split(",")}
-            if job.skills else set()
-        )
+    The frontend's accept=".pdf" is a hint to the file picker, not a constraint,
+    so the only check that counts happens here.
+    """
+    if upload.size == 0:
+        return "File is empty"
+    if upload.size > settings.MAX_RESUME_BYTES:
+        return f"File exceeds the {settings.MAX_RESUME_BYTES // (1024 * 1024)}MB limit"
+    if not upload.name.lower().endswith(".pdf"):
+        return "Only PDF files are accepted"
 
-        if not job_skills_set:
-            strength = 0
-            matched_skills = set()
-            missing_skills = set()
-        else:
-            matched_skills = resume_skills_set & job_skills_set
-            missing_skills = job_skills_set - resume_skills_set
-            strength = int((len(matched_skills) / len(job_skills_set)) * 100)
-
-        feedback.append({
-            "job_title": job.title,
-            "resume_strength": strength,
-            "matched_skills": sorted(matched_skills),
-            "missing_skills": sorted(missing_skills),
-        })
-
-    return feedback
+    # Content, not just the extension: read the header and rewind for the save.
+    header = upload.read(len(PDF_MAGIC))
+    upload.seek(0)
+    if header != PDF_MAGIC:
+        return "File is not a valid PDF"
+    return None
 
 
 @api_view(["POST"])
 def upload_resume(request):
     files = request.FILES.getlist("file")
+    if not files:
+        return Response({"error": "No file provided"}, status=status.HTTP_400_BAD_REQUEST)
+
+    errors = {f.name: error for f in files if (error := validate_pdf(f))}
+    if errors:
+        return Response({"errors": errors}, status=status.HTTP_400_BAD_REQUEST)
+
     uploaded = []
-
     for f in files:
-        resume = Resume.objects.create(
-            file=f,
-            user=request.user if request.user.is_authenticated else None
-        )
-
-        # async processing
+        resume = Resume.objects.create(file=f, user=request.user)
         process_resume.delay(resume.id)
-
         uploaded.append(ResumeSerializer(resume).data)
 
     return Response({"data": uploaded}, status=status.HTTP_201_CREATED)
 
 
-
-
 @api_view(["GET"])
 def resume_detail(request, resume_id):
-    try:
-        resume = Resume.objects.get(id=resume_id)
-        serialized = ResumeSerializer(resume).data
+    # Scoped to the caller: resume ids are sequential, so an unscoped lookup would
+    # let anyone walk the table and read every uploaded resume.
+    resume = Resume.objects.filter(id=resume_id, user=request.user).first()
+    if resume is None:
+        return Response({"error": "Resume not found"}, status=status.HTTP_404_NOT_FOUND)
 
-        # ✅ ADD job feedback as a DIFFERENT FIELD
-        resume_skills = (
-            [s.strip().lower() for s in resume.skills.split(",")]
-            if resume.skills else []
-        )
-
-        jobs = Job.objects.all()
-        serialized["job_feedback"] = get_resume_feedback(resume_skills, jobs)
-
-        return Response(serialized)
-    
-    except Resume.DoesNotExist:
-        return Response({"error": "Resume not found"}, status=404)
-
-
-
-@api_view(["GET"])
-def resume_job_match_view(request, resume_id, job_id):
-    try:
-        resume = Resume.objects.get(id=resume_id)
-        job = Job.objects.get(id=job_id)
-
-        resume_skills = (
-            {s.strip().lower() for s in resume.skills.split(",")}
-            if resume.skills else set()
-        )
-
-        job_skills = (
-            {s.strip().lower() for s in job.skills.split(",")}
-            if job.skills else set()
-        )
-
-        if not job_skills:
-            return Response({"match_score": 0})
-
-        matched = resume_skills & job_skills
-        score = (len(matched) / len(job_skills)) * 100
-
-        return Response({"match_score": round(score, 2)})
-
-    except Resume.DoesNotExist:
-        return Response({"error": "Resume not found"}, status=404)
-    except Job.DoesNotExist:
-        return Response({"error": "Job not found"}, status=404)
+    # Scored matches (with apply links) live in ai_feedback.matches, built once
+    # by the Celery task — not recomputed across every job on each poll.
+    return Response(ResumeSerializer(resume).data)

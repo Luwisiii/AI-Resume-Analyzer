@@ -3,6 +3,10 @@ Django==5.2.10
 djangorestframework==3.16.1
 django-cors-headers==4.9.0
 
+# Production serving
+gunicorn==23.0.0
+whitenoise==6.8.2
+
 # Database
 psycopg[binary]==3.3.2
 pgvector==0.4.2  

@@ -54,16 +54,40 @@ jobs:
             sleep 2
           done
 
-      - name: Enable pgvector extension
-        run: |
-          PGPASSWORD=postgres psql \
-            -h localhost -U postgres -d ai_resume_db \
-            -c "CREATE EXTENSION IF NOT EXISTS vector;"
-
+      # The `vector` extension is installed by jobs/resumes 0001_initial, so it
+      # covers the test database too — no manual CREATE EXTENSION step here.
       - name: Run Django migrations
         working-directory: backend
         run: python manage.py migrate
 
       - name: Run Django tests
         working-directory: backend
-        run: python manage.py test
+        run: python manage.py test --verbosity 2
+
+  frontend-ci:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      # `npm ci` installs exactly what package.json declares, so an import of a
+      # package nobody added fails here instead of at deploy time.
+      - name: Install dependencies
+        working-directory: frontend
+        run: npm ci
+
+      - name: Lint
+        working-directory: frontend
+        run: npm run lint
+
+      - name: Build
+        working-directory: frontend
+        run: npm run build

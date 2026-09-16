@@ -13,20 +13,34 @@ import os
 
 from pathlib import Path
 
+from dotenv import load_dotenv
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+load_dotenv(BASE_DIR / ".env")
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-byolj-t=dw5nzqcse1ounu)pb8dzhq(=%vxs5t3t$81t+xafz$'
+def env_flag(name, default=False):
+    return os.getenv(name, str(default)).strip().lower() in ("1", "true", "yes", "on")
+
+
+def env_list(name, default=""):
+    return [item.strip() for item in os.getenv(name, default).split(",") if item.strip()]
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env_flag("DEBUG", True)
 
-ALLOWED_HOSTS = []
+# SECURITY WARNING: keep the secret key used in production secret!
+# The old hard-coded key was committed to git and must be treated as compromised.
+SECRET_KEY = os.getenv("SECRET_KEY", "")
+if not SECRET_KEY:
+    if not DEBUG:
+        raise RuntimeError("SECRET_KEY must be set when DEBUG is off")
+    SECRET_KEY = "django-insecure-dev-only-key-do-not-deploy"
+
+ALLOWED_HOSTS = env_list("ALLOWED_HOSTS", "localhost,127.0.0.1" if DEBUG else "")
 
 
 # Application definition
@@ -42,7 +56,8 @@ INSTALLED_APPS = [
     'pgvector',
     'corsheaders',
     "rest_framework",
-    
+    "rest_framework.authtoken",
+
     "apps.ai",
     
     "apps.users",
@@ -50,7 +65,19 @@ INSTALLED_APPS = [
     "apps.jobs",
     "apps.analysis",
 ]
-CELERY_BROKER_URL = "redis://localhost:6379/0"
+REST_FRAMEWORK = {
+    # Token auth rather than session auth: the SPA sends a header, so there is no
+    # CSRF dance and no cookie to leak cross-origin.
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.TokenAuthentication",
+    ],
+    # Closed by default; endpoints that must be public opt out explicitly.
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated",
+    ],
+}
+
+CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL", "redis://localhost:6379/0")
 CELERY_RESULT_BACKEND = "django-db"
 CELERY_ACCEPT_CONTENT = ["json"]
 CELERY_TASK_SERIALIZER = "json"
@@ -68,6 +95,14 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     
 ]
+
+if not DEBUG:
+    # Serves collectstatic output under gunicorn. In DEBUG the staticfiles app
+    # handles it and STATIC_ROOT does not exist yet, so WhiteNoise only warns.
+    MIDDLEWARE.insert(
+        MIDDLEWARE.index('django.middleware.security.SecurityMiddleware') + 1,
+        'whitenoise.middleware.WhiteNoiseMiddleware',
+    )
 
 ROOT_URLCONF = 'core.urls'
 
@@ -99,7 +134,7 @@ DATABASES = {
         "USER": os.getenv("DB_USER", "postgres"),
         "PASSWORD": os.getenv("DB_PASSWORD", "postgres"),
         "HOST": os.getenv("DB_HOST", "127.0.0.1"),
-        "PORT": os.getenv("DB_PORT", "5433"),  
+        "PORT": os.getenv("DB_PORT", "5433"),
     }
 }
 
@@ -139,6 +174,19 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / "staticfiles"
+STORAGES = {
+    "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
+    "staticfiles": {
+        # The manifest backend requires collectstatic to have run, which is a
+        # deploy step, not a dev one — so only ask for it outside DEBUG.
+        "BACKEND": (
+            "django.contrib.staticfiles.storage.StaticFilesStorage"
+            if DEBUG
+            else "whitenoise.storage.CompressedManifestStaticFilesStorage"
+        )
+    },
+}
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -149,5 +197,22 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
-# Allow frontend to access API during development
-CORS_ALLOW_ALL_ORIGINS = True  # dev only
+# Uploads. Resumes are a few hundred KB; anything larger is not a resume.
+MAX_RESUME_BYTES = int(os.getenv("MAX_RESUME_BYTES", 5 * 1024 * 1024))
+DATA_UPLOAD_MAX_MEMORY_SIZE = MAX_RESUME_BYTES
+FILE_UPLOAD_MAX_MEMORY_SIZE = MAX_RESUME_BYTES
+
+# Only the frontend may call the API. Never allow-all: with credentials in a
+# header, an open CORS policy lets any page drive the API on a user's behalf.
+CORS_ALLOWED_ORIGINS = env_list(
+    "CORS_ALLOWED_ORIGINS",
+    "http://localhost:5173,http://127.0.0.1:5173" if DEBUG else "",
+)
+
+if not DEBUG:
+    SECURE_SSL_REDIRECT = env_flag("SECURE_SSL_REDIRECT", True)
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_HSTS_SECONDS = 31536000
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
