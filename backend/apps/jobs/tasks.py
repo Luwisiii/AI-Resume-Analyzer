@@ -89,9 +89,6 @@ def extract_skills_batch(descriptions):
     if empty:
         logger.warning("skill extraction returned nothing for %s of %s postings in batch",
                        empty, len(descriptions))
-    if empty == len(descriptions):
-        # A whole batch empty usually means the model changed the JSON shape.
-        logger.warning("model output: %.300r", result)
     return skills
 
 
