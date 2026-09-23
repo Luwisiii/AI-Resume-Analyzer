@@ -1,3 +1,5 @@
+<p align="center"><img src="frontend/public/logo.svg" alt="Resume Analyzer" width="300"></p>
+
 This is a web application that evaluates resumes using AI and provides instant, structured feedback on content quality, skills alignment, and overall effectiveness. It helps job seekers optimize their resumes based on intelligent analysis rather than guesswork. It uses vector embeddings and a locally hosted LLM.
 
 The system accepts a PDF resume upload, extracts the text, analyzes it using an AI model, and returns actionable insights such as:

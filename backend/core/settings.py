@@ -90,6 +90,13 @@ REST_FRAMEWORK = {
     },
 }
 
+# "Continue with Google / GitHub". A provider with no client id shows an error
+# instead. Register the redirect URI <site>/api/auth/oauth/<provider>/callback/.
+GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID", "")
+GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET", "")
+GITHUB_CLIENT_ID = os.getenv("GITHUB_CLIENT_ID", "")
+GITHUB_CLIENT_SECRET = os.getenv("GITHUB_CLIENT_SECRET", "")
+
 # Sessions: HttpOnly (Django default), SameSite=Lax, one-day lifetime.
 SESSION_COOKIE_AGE = int(os.getenv("SESSION_COOKIE_AGE", 60 * 60 * 24))
 SESSION_COOKIE_SAMESITE = "Lax"
