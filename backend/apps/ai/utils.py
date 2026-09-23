@@ -16,20 +16,26 @@ LLM_API_KEY = os.environ.get("LLM_API_KEY", "ollama")
 MODEL = os.environ.get("LLM_MODEL", "qwen2.5:7b")
 # CPU-only hosts generate a few tokens/s; a 2048-token batch can outlast 5 minutes.
 TIMEOUT = int(os.environ.get("LLM_TIMEOUT", 300))
+# Reasoning models (gpt-oss) spend max_tokens on hidden reasoning first; "low"
+# leaves room for the JSON. Unset for models that reject the field (qwen2.5).
+REASONING_EFFORT = os.environ.get("LLM_REASONING_EFFORT", "")
 
 
 def _post(prompt):
+    body = {
+        "model": MODEL,
+        "messages": [{"role": "user", "content": prompt}],
+        "response_format": {"type": "json_object"},
+        "temperature": 0.2,
+        "max_tokens": 2048,  # headroom for a 20-posting skills batch
+        "top_p": 0.9,
+    }
+    if REASONING_EFFORT:
+        body["reasoning_effort"] = REASONING_EFFORT
     return requests.post(
         f"{LLM_BASE_URL}/chat/completions",
         headers={"Authorization": f"Bearer {LLM_API_KEY}"},
-        json={
-            "model": MODEL,
-            "messages": [{"role": "user", "content": prompt}],
-            "response_format": {"type": "json_object"},
-            "temperature": 0.2,
-            "max_tokens": 2048,  # headroom for a 20-posting skills batch
-            "top_p": 0.9,
-        },
+        json=body,
         timeout=TIMEOUT,
     )
 
