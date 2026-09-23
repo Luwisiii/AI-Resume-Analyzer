@@ -116,10 +116,10 @@ class ExtractSkillsBatchTests(SimpleTestCase):
 
 class FetchTests(TestCase):
     def setUp(self):
-        patcher = patch("apps.jobs.tasks.embedding_model")
+        patcher = patch("apps.jobs.tasks.embed")
         self.mock_model = patcher.start()
         self.addCleanup(patcher.stop)
-        self.mock_model.return_value.encode.side_effect = lambda texts, **kw: np.zeros(
+        self.mock_model.side_effect = lambda texts: np.zeros(
             (len(texts), 384), dtype=np.float32
         )
 
@@ -232,10 +232,10 @@ class StalenessTests(TestCase):
         assert Job.objects.count() == 1
         assert Job.objects.get().url.endswith("recent")
 
-    @patch("apps.jobs.tasks.embedding_model")
+    @patch("apps.jobs.tasks.embed")
     @patch("apps.jobs.tasks.requests.get")
     def test_refetching_a_posting_marks_it_seen_again(self, mock_get, mock_model):
-        mock_model.return_value.encode.side_effect = lambda texts, **kw: np.zeros(
+        mock_model.side_effect = lambda texts: np.zeros(
             (len(texts), 384), dtype=np.float32
         )
         mock_get.return_value.json.return_value = REMOTIVE_SAMPLE
@@ -253,8 +253,8 @@ class StalenessTests(TestCase):
 
 class RefreshJobsTests(TestCase):
     def setUp(self):
-        patcher = patch("apps.jobs.tasks.embedding_model")
-        patcher.start().return_value.encode.side_effect = lambda texts, **kw: np.zeros(
+        patcher = patch("apps.jobs.tasks.embed")
+        patcher.start().side_effect = lambda texts: np.zeros(
             (len(texts), 384), dtype=np.float32
         )
         self.addCleanup(patcher.stop)

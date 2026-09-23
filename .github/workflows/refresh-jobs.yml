@@ -1,0 +1,39 @@
+# Nightly job-postings refresh for hosts with no Celery beat (Render free).
+# Postings unseen for 14 days drop out of matching, so this must keep running.
+# Needs repo secrets: DB_HOST, DB_NAME, DB_USER, DB_PASSWORD, LLM_API_KEY, JOOBLE_API_KEY.
+name: Refresh job postings
+
+on:
+  schedule:
+    - cron: "0 19 * * *"  # 03:00 Philippine time
+  workflow_dispatch:  # "Run workflow" button, for the first fill
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    env:
+      DB_HOST: ${{ secrets.DB_HOST }}
+      DB_NAME: ${{ secrets.DB_NAME }}
+      DB_USER: ${{ secrets.DB_USER }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      DB_PORT: "5432"
+      PGSSLMODE: require
+      LLM_BASE_URL: https://api.groq.com/openai/v1
+      LLM_MODEL: llama-3.3-70b-versatile
+      LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
+      JOOBLE_API_KEY: ${{ secrets.JOOBLE_API_KEY }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: backend/requirements.txt
+
+      - run: pip install -r backend/requirements.txt
+
+      - name: Refresh
+        working-directory: backend
+        run: python manage.py shell -c "from apps.jobs.tasks import refresh_jobs; print(refresh_jobs())"

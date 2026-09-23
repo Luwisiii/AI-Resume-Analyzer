@@ -2,40 +2,53 @@ import requests
 import json
 import logging
 import os
+import time
+from functools import lru_cache
+
+import numpy as np
 
 logger = logging.getLogger(__name__)
 
-OLLAMA_URL = os.environ.get("OLLAMA_URL", "http://localhost:11434/api/generate")
-MODEL = os.environ.get("OLLAMA_MODEL", "qwen2.5:7b")
+# Any OpenAI-compatible chat API. The default is a local Ollama; a hosted one
+# (Groq, Gemini, ...) is the same call with a different URL, key and model.
+LLM_BASE_URL = os.environ.get("LLM_BASE_URL", "http://localhost:11434/v1").rstrip("/")
+LLM_API_KEY = os.environ.get("LLM_API_KEY", "ollama")
+MODEL = os.environ.get("LLM_MODEL", "qwen2.5:7b")
 # CPU-only hosts generate a few tokens/s; a 2048-token batch can outlast 5 minutes.
-TIMEOUT = int(os.environ.get("OLLAMA_TIMEOUT", 300))
+TIMEOUT = int(os.environ.get("LLM_TIMEOUT", 300))
+
+
+def _post(prompt):
+    return requests.post(
+        f"{LLM_BASE_URL}/chat/completions",
+        headers={"Authorization": f"Bearer {LLM_API_KEY}"},
+        json={
+            "model": MODEL,
+            "messages": [{"role": "user", "content": prompt}],
+            "response_format": {"type": "json_object"},
+            "temperature": 0.2,
+            "max_tokens": 2048,  # headroom for a 20-posting skills batch
+            "top_p": 0.9,
+        },
+        timeout=TIMEOUT,
+    )
 
 
 def ask_model(prompt: str):
     try:
-        response = requests.post(
-            OLLAMA_URL,
-            json={
-                "model": MODEL,
-                "prompt": prompt,
-                "stream": False,
-                "format": "json",  
-                "options": {
-                    "temperature": 0.2,
-                    "num_predict": 2048,  # headroom for a 20-posting skills batch
-                    "top_p": 0.9,
-                },
-            },
-            timeout=TIMEOUT,
-        )
+        response = _post(prompt)
+        if response.status_code == 429:
+            # Free hosted tiers rate-limit per minute; one wait usually clears it.
+            time.sleep(min(float(response.headers.get("retry-after") or 10), 60))
+            response = _post(prompt)
 
         if response.status_code >= 400:
-            # Ollama puts the real cause here ("model 'x' not found, try pulling it"),
+            # The body holds the real cause ("model 'x' not found", "invalid key"),
             # which raise_for_status alone throws away.
-            logger.error("Ollama %s for model %r: %.300s", response.status_code, MODEL, response.text)
+            logger.error("LLM %s for model %r: %.300s", response.status_code, MODEL, response.text)
             response.raise_for_status()
 
-        raw_text = response.json().get("response", "").strip()
+        raw_text = (response.json()["choices"][0]["message"]["content"] or "").strip()
 
         if not raw_text:
             logger.warning("⚠️ Empty model response")
@@ -52,5 +65,20 @@ def ask_model(prompt: str):
     except Exception as e:
         # None, not {}: callers must be able to tell "model unreachable" from
         # "model found nothing", or an outage reads as an empty resume.
-        logger.error(f"Ollama error: {e}")
+        logger.error(f"LLM error: {e}")
         return None
+
+
+# Loaded once, on first use (importing this module must not hit the network).
+# fastembed runs all-MiniLM-L6-v2 on ONNX: the same 384-d normalized vectors as
+# sentence-transformers, without torch, so it fits a 512 MB host.
+@lru_cache(maxsize=1)
+def _embedder():
+    from fastembed import TextEmbedding
+
+    return TextEmbedding("sentence-transformers/all-MiniLM-L6-v2")
+
+
+def embed(texts):
+    """Unit-length 384-d vectors, one row per text."""
+    return np.array(list(_embedder().embed(texts)))

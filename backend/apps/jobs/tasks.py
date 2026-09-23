@@ -2,32 +2,24 @@ import html
 import logging
 import os
 import re
-from functools import lru_cache
 
 import requests
 from celery import shared_task
 from django.utils import timezone
 
 from apps.ai.job_prompts import job_skill_extraction_prompt
-from apps.ai.utils import ask_model
+from apps.ai.utils import ask_model, embed
 
 from .models import JOB_STALE_AFTER, Job
 
 logger = logging.getLogger(__name__)
 
 
-@lru_cache(maxsize=1)
-def embedding_model():
-    from sentence_transformers import SentenceTransformer
-
-    return SentenceTransformer("all-MiniLM-L6-v2")
-
-
 REMOTIVE_URL = "https://remotive.com/api/remote-jobs"
 JOOBLE_URL = "https://jooble.org/api/"
 JOOBLE_PAGE_SIZE = 20
 
-# ponytail: sized for qwen2.5:7b (the OLLAMA_MODEL default), which holds strict JSON
+# ponytail: sized for qwen2.5:7b (the LLM_MODEL default), which holds strict JSON
 # well at this width. Drop it back toward 10 for a smaller model — a batch that comes
 # back malformed loses skills for every posting in it.
 JOB_SKILL_BATCH_SIZE = 20
@@ -163,9 +155,8 @@ def ingest(rows):
     if not rows:
         return {"created": 0, "updated": 0}
 
-    vectors = embedding_model().encode(
-        [f"{r['title']} {r['company']} {r['location']} {r['skills']} {r['description']}" for r in rows],
-        normalize_embeddings=True,
+    vectors = embed(
+        [f"{r['title']} {r['company']} {r['location']} {r['skills']} {r['description']}" for r in rows]
     )
 
     created = updated = 0

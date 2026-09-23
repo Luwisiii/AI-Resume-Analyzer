@@ -15,11 +15,11 @@ from apps.resumes.tasks import process_resume, skill_key
 class TestResumeTasks(TestCase):
 
     def setUp(self):
-        patcher = patch("apps.resumes.tasks.model")
+        patcher = patch("apps.resumes.tasks.embed")
         self.mock_model = patcher.start()
         self.addCleanup(patcher.stop)
         # The task calls .tolist() on this, so it must be an array, not a list.
-        self.mock_model.return_value.encode.return_value = np.zeros(384, dtype=np.float32)
+        self.mock_model.return_value = np.zeros((1, 384), dtype=np.float32)
 
     def make_resume(self):
         return Resume.objects.create(

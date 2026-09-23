@@ -1,6 +1,8 @@
 import logging
+import threading
 
 from django.conf import settings
+from django.db import connection
 from rest_framework.decorators import api_view, throttle_classes
 from rest_framework.response import Response
 from rest_framework import status
@@ -11,6 +13,13 @@ from .serializers import ResumeSerializer
 from .tasks import process_resume
 
 logger = logging.getLogger(__name__)
+
+
+def process_in_thread(resume_id):
+    try:
+        process_resume(resume_id)
+    finally:
+        connection.close()  # the thread's own DB connection, or it leaks
 
 PDF_MAGIC = b"%PDF-"
 MAX_FILES_PER_UPLOAD = 5
@@ -61,7 +70,12 @@ def upload_resume(request):
     for f in files:
         resume = Resume.objects.create(file=f, user=request.user)
         try:
-            process_resume.delay(resume.id)
+            if settings.TASKS_IN_PROCESS:
+                # ponytail: the thread dies with the process (deploy, idle spin-down),
+                # leaving that resume mid-progress. Celery when uploads must survive it.
+                threading.Thread(target=process_in_thread, args=(resume.id,), daemon=True).start()
+            else:
+                process_resume.delay(resume.id)
         except Exception:
             # Broker down: nothing will ever process this row, so don't keep it.
             logger.exception("Could not queue resume processing")

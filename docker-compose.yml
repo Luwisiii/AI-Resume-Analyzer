@@ -2,7 +2,7 @@
 # then `docker compose up -d --build`. See DEPLOY.md.
 
 x-django: &django
-  build: ./backend
+  build: .
   restart: unless-stopped
   env_file: .env
   environment:
@@ -13,7 +13,7 @@ x-django: &django
     DB_PORT: "5432"
     CELERY_BROKER_URL: redis://redis:6379/0
     REDIS_CACHE_URL: redis://redis:6379/1
-    OLLAMA_URL: http://ollama:11434/api/generate
+    LLM_BASE_URL: http://ollama:11434/v1
   volumes:
     - media:/app/media  # web writes uploads, worker reads them
   depends_on:
@@ -36,7 +36,7 @@ services:
     command: celery -A core beat -l info --schedule /tmp/celerybeat-schedule
 
   caddy:
-    build: ./frontend
+    image: caddy:2-alpine
     restart: unless-stopped
     environment:
       DOMAIN: ${DOMAIN}
@@ -44,6 +44,7 @@ services:
       - "80:80"
       - "443:443"
     volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
       - caddy_data:/data  # TLS certs; losing them hits Let's Encrypt rate limits
     depends_on:
       - web
@@ -79,7 +80,7 @@ services:
     image: ollama/ollama
     environment:
       OLLAMA_HOST: ollama:11434
-    entrypoint: ["ollama", "pull", "${OLLAMA_MODEL}"]
+    entrypoint: ["ollama", "pull", "${LLM_MODEL}"]
     depends_on:
       - ollama
     restart: on-failure

@@ -17,9 +17,8 @@ django_celery_results==2.6.0
 redis==7.1.0
 
 
-# Sentence embeddings (optional, only if using locally)
-sentence-transformers==5.2.0
-torch==2.9.1
+# Sentence embeddings: all-MiniLM-L6-v2 on ONNX (no torch)
+fastembed==0.8.1
 
 # Utilities
 requests==2.31.0

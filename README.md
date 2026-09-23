@@ -30,8 +30,9 @@ This measures semantic meaning, not keyword matching.
 
 5. AI Resume Critique (Local LLM)
 
-The extracted resume text is sent to Ollama, running qwen2.5:7b by default.
-Override with the `OLLAMA_MODEL` and `OLLAMA_URL` environment variables.
+The extracted resume text is sent to any OpenAI-compatible chat API: a local
+Ollama running qwen2.5:7b by default, or a hosted one such as Groq. Configure it
+with `LLM_BASE_URL`, `LLM_API_KEY` and `LLM_MODEL`.
 
 The prompt forces structured JSON output:
 
@@ -115,7 +116,7 @@ PostgreSQL (port 5433) with the pgvector extension — e.g. via Docker:
 -e POSTGRES_PASSWORD=<your-password> --restart unless-stopped pgvector/pgvector:pg16`
 Redis
 Ollama installed locally, with the model pulled: `ollama pull qwen2.5:7b`
-(~4.7GB, wants ~8GB RAM; set `OLLAMA_MODEL=phi3:mini` for a lighter machine and
+(~4.7GB, wants ~8GB RAM; set `LLM_MODEL=phi3:mini` for a lighter machine and
 drop JOB_SKILL_BATCH_SIZE in backend/apps/jobs/tasks.py toward 10)
 
 Configuration
@@ -133,28 +134,21 @@ python -c "from django.core.management.utils import get_random_secret_key as k; 
 
 Accounts
 
-Resumes are private to the account that uploaded them, so the API requires a
-token on every request:
+Resumes are private to the account that uploaded them. Sign-in uses Django's
+HttpOnly session cookie (never a token in localStorage), with CSRF on every write:
 
 ```
-POST /api/auth/register/   {username, email, password}  -> {token}
-POST /api/auth/login/      {username, password}         -> {token}
-GET  /api/auth/me/         Authorization: Token <key>
+GET  /api/auth/csrf/       sets the csrftoken cookie
+POST /api/auth/register/   {username, email, password, password2}
+POST /api/auth/login/      {username, password}
+GET  /api/auth/me/
 ```
-
-The React app handles this for you — register or sign in on first load, and the
-token is stored in the browser and attached to each request.
 
 Deploying
 
-`DEBUG=False` requires `SECRET_KEY`, `ALLOWED_HOSTS` and `CORS_ALLOWED_ORIGINS`
-to be set, and turns on HTTPS redirect, HSTS and secure cookies. Serve with:
-
-```
-python manage.py migrate
-python manage.py collectstatic --noinput
-gunicorn core.wsgi:application --bind 0.0.0.0:8000
-```
+See [DEPLOY.md](DEPLOY.md): Render's free tier for a live demo (`render.yaml`),
+or one VM with Docker Compose (`docker-compose.yml`). Both build the root
+`Dockerfile`, where Django serves the API and the built React app from one origin.
 
 Uploaded resumes are private documents and are only served through the API's
 per-owner check; Django serves the media directory directly in DEBUG only.

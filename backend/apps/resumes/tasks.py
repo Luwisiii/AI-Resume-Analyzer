@@ -2,22 +2,14 @@ from celery import shared_task
 from .models import Resume
 from apps.jobs.models import Job
 from apps.analysis.matching import match_resume_to_job
-from sentence_transformers import SentenceTransformer
-from apps.ai.utils import ask_model
+from apps.ai.utils import ask_model, embed
 from apps.ai.resume_prompts import skill_extraction_prompt
 from .keywords import find_skills
-from functools import lru_cache
 import logging
 import fitz
 import re
 
 logger = logging.getLogger(__name__)
-
-
-# Load embedding model once, on first use (importing this module must not hit the network)
-@lru_cache(maxsize=1)
-def model():
-    return SentenceTransformer("all-MiniLM-L6-v2")
 
 
 def extract_text_from_pdf(file_path):
@@ -123,7 +115,7 @@ def _process_resume(resume_id):
     # 3️⃣ Generate embedding
     report_progress(resume_id, "embedding", 60)
     try:
-        embedding = model().encode(text, normalize_embeddings=True)
+        embedding = embed([text])[0]
         resume.embedding = embedding.tolist()  # ✅ store as list for pgvector
         resume.save(update_fields=["extracted_text", "skills", "embedding"])
     except Exception:

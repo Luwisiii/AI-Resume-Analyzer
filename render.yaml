@@ -1,0 +1,42 @@
+# Render Blueprint: one free web service built from the root Dockerfile.
+# Database is Neon (free, no expiry); the LLM is Groq's free API. See DEPLOY.md.
+services:
+  - type: web
+    name: ai-resume-analyzer
+    runtime: docker
+    plan: free
+    region: singapore  # next to the Neon database (AWS Singapore)
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "False"
+      # No free Celery worker on Render: process uploads on a thread instead.
+      - key: TASKS_IN_PROCESS
+        value: "True"
+
+      - key: LLM_BASE_URL
+        value: https://api.groq.com/openai/v1
+      - key: LLM_MODEL
+        value: llama-3.3-70b-versatile
+      - key: LLM_API_KEY
+        sync: false
+
+      # From the Neon connection details.
+      - key: DB_HOST
+        sync: false
+      - key: DB_NAME
+        sync: false
+      - key: DB_USER
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      - key: DB_PORT
+        value: "5432"
+      - key: PGSSLMODE
+        value: require
+
+      - key: JOOBLE_API_KEY
+        sync: false

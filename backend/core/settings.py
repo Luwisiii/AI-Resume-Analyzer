@@ -41,6 +41,8 @@ if not SECRET_KEY:
     SECRET_KEY = "django-insecure-dev-only-key-do-not-deploy"
 
 ALLOWED_HOSTS = env_list("ALLOWED_HOSTS", "localhost,127.0.0.1" if DEBUG else "")
+if os.getenv("RENDER_EXTERNAL_HOSTNAME"):  # set by Render itself
+    ALLOWED_HOSTS.append(os.getenv("RENDER_EXTERNAL_HOSTNAME"))
 
 
 # Application definition
@@ -104,6 +106,9 @@ if os.getenv("REDIS_CACHE_URL"):
     }
 
 CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL", "redis://localhost:6379/0")
+# Hosts with no worker (Render free) run resume processing on a thread in the web
+# process instead of queueing it to Celery.
+TASKS_IN_PROCESS = env_flag("TASKS_IN_PROCESS", False)
 CELERY_RESULT_BACKEND = "django-db"
 CELERY_ACCEPT_CONTENT = ["json"]
 CELERY_TASK_SERIALIZER = "json"
@@ -201,6 +206,10 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / "staticfiles"
+# The built React app (Dockerfile copies frontend/dist here), served at "/" by
+# WhiteNoise so the frontend and API share one origin and the session cookie.
+WHITENOISE_ROOT = BASE_DIR / "frontend_dist"
+WHITENOISE_INDEX_FILE = True
 STORAGES = {
     "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
     "staticfiles": {

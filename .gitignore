@@ -8,3 +8,4 @@ backend/media/
 backend/staticfiles/
 node_modules/
 frontend/dist/
+backend/frontend_dist/
