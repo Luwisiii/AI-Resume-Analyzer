@@ -1,13 +1,23 @@
+import logging
+
 from django.conf import settings
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, throttle_classes
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.throttling import UserRateThrottle
 
 from .models import Resume
 from .serializers import ResumeSerializer
 from .tasks import process_resume
 
+logger = logging.getLogger(__name__)
+
 PDF_MAGIC = b"%PDF-"
+MAX_FILES_PER_UPLOAD = 5
+
+
+class UploadThrottle(UserRateThrottle):
+    scope = "upload"
 
 
 def validate_pdf(upload):
@@ -32,10 +42,16 @@ def validate_pdf(upload):
 
 
 @api_view(["POST"])
+@throttle_classes([UploadThrottle])
 def upload_resume(request):
     files = request.FILES.getlist("file")
     if not files:
         return Response({"error": "No file provided"}, status=status.HTTP_400_BAD_REQUEST)
+    if len(files) > MAX_FILES_PER_UPLOAD:
+        return Response(
+            {"error": f"Upload at most {MAX_FILES_PER_UPLOAD} files at a time"},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
 
     errors = {f.name: error for f in files if (error := validate_pdf(f))}
     if errors:
@@ -44,7 +60,17 @@ def upload_resume(request):
     uploaded = []
     for f in files:
         resume = Resume.objects.create(file=f, user=request.user)
-        process_resume.delay(resume.id)
+        try:
+            process_resume.delay(resume.id)
+        except Exception:
+            # Broker down: nothing will ever process this row, so don't keep it.
+            logger.exception("Could not queue resume processing")
+            resume.file.delete(save=False)
+            resume.delete()
+            return Response(
+                {"error": "The analysis service is unavailable right now. Please try again shortly."},
+                status=status.HTTP_503_SERVICE_UNAVAILABLE,
+            )
         uploaded.append(ResumeSerializer(resume).data)
 
     return Response({"data": uploaded}, status=status.HTTP_201_CREATED)

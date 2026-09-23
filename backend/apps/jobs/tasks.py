@@ -50,8 +50,15 @@ def _row(url, title, **fields):
     return {"url": url, "title": title, **fields}
 
 
+# Real postings carry 1-19 tags; some agencies (Lemon.io) tag every posting with
+# ~50 stacks they hire for, which would list .NET and Unity as "missing" for a QA role.
+MAX_REMOTIVE_TAGS = 30
+
+
 def normalize_remotive(posting):
     tags = posting.get("tags") or []
+    if len(tags) > MAX_REMOTIVE_TAGS:
+        tags = []  # no skills list beats a wrong one; the embedding still matches
     return _row(
         posting.get("url"),
         posting.get("title"),

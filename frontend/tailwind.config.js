@@ -24,7 +24,10 @@ export default {
         mono: ['"IBM Plex Mono"', "ui-monospace", "SFMono-Regular", "monospace"],
       },
       borderRadius: {
-        sheet: "3px",
+        sheet: "14px",
+      },
+      boxShadow: {
+        card: "0 1px 2px rgba(22,26,22,.04), 0 8px 24px -8px rgba(22,26,22,.12)",
       },
       keyframes: {
         rise: {
@@ -35,15 +38,15 @@ export default {
           from: { opacity: "0" },
           to: { opacity: "1" },
         },
-        feed: {
+        shine: {
           "0%": { transform: "translateX(-100%)" },
-          "100%": { transform: "translateX(400%)" },
+          "100%": { transform: "translateX(100%)" },
         },
       },
       animation: {
         rise: "rise .3s cubic-bezier(.2,.7,.3,1) both",
         fade: "fade .24s ease-out both",
-        feed: "feed 1.4s ease-in-out infinite",
+        shine: "shine 1.6s ease-in-out infinite",
       },
     },
   },

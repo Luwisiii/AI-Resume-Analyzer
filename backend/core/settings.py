@@ -56,7 +56,6 @@ INSTALLED_APPS = [
     'pgvector',
     'corsheaders',
     "rest_framework",
-    "rest_framework.authtoken",
 
     "apps.ai",
     
@@ -66,16 +65,43 @@ INSTALLED_APPS = [
     "apps.analysis",
 ]
 REST_FRAMEWORK = {
-    # Token auth rather than session auth: the SPA sends a header, so there is no
-    # CSRF dance and no cookie to leak cross-origin.
+    # HttpOnly session cookie, not a token in localStorage: script injected into
+    # the page cannot read it. SessionAuthentication enforces CSRF on writes.
     "DEFAULT_AUTHENTICATION_CLASSES": [
-        "rest_framework.authentication.TokenAuthentication",
+        "apps.users.auth.SessionAuthentication",
     ],
     # Closed by default; endpoints that must be public opt out explicitly.
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticated",
     ],
+    "DEFAULT_THROTTLE_CLASSES": [
+        "rest_framework.throttling.AnonRateThrottle",
+        "rest_framework.throttling.UserRateThrottle",
+    ],
+    # Throttle counters live in CACHES: per-process memory in dev, Redis when
+    # REDIS_CACHE_URL is set, so every gunicorn worker counts against one limit.
+    "DEFAULT_THROTTLE_RATES": {
+        "anon": "60/min",
+        "user": "120/min",
+        "auth": "10/min",  # login + register: brute force / credential stuffing
+        "upload": "10/hour",  # each upload costs an LLM call and an embedding
+    },
 }
+
+# Sessions: HttpOnly (Django default), SameSite=Lax, one-day lifetime.
+SESSION_COOKIE_AGE = int(os.getenv("SESSION_COOKIE_AGE", 60 * 60 * 24))
+SESSION_COOKIE_SAMESITE = "Lax"
+CSRF_COOKIE_SAMESITE = "Lax"
+SECURE_REFERRER_POLICY = "same-origin"
+X_FRAME_OPTIONS = "DENY"
+
+if os.getenv("REDIS_CACHE_URL"):
+    CACHES = {
+        "default": {
+            "BACKEND": "django.core.cache.backends.redis.RedisCache",
+            "LOCATION": os.getenv("REDIS_CACHE_URL"),
+        }
+    }
 
 CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL", "redis://localhost:6379/0")
 CELERY_RESULT_BACKEND = "django-db"
@@ -208,6 +234,10 @@ CORS_ALLOWED_ORIGINS = env_list(
     "CORS_ALLOWED_ORIGINS",
     "http://localhost:5173,http://127.0.0.1:5173" if DEBUG else "",
 )
+# The session cookie must ride along on cross-origin calls, and those same
+# origins are the only ones allowed to pass the CSRF check.
+CORS_ALLOW_CREDENTIALS = True
+CSRF_TRUSTED_ORIGINS = CORS_ALLOWED_ORIGINS
 
 if not DEBUG:
     SECURE_SSL_REDIRECT = env_flag("SECURE_SSL_REDIRECT", True)

@@ -30,55 +30,24 @@
 }
 
 @layer components {
-  /* Small caps set in the machine's own voice: column heads, meta, counts. */
+  /* Small caps: column heads, meta, counts. */
   .label {
     @apply font-mono text-[11px] font-medium uppercase tracking-[0.16em] text-muted;
   }
 
-  /* Paper form fields: a rule to write on, not a filled box. */
   .field {
-    @apply w-full border-0 border-b border-rule bg-transparent px-0 py-2 text-ink
-           transition-colors placeholder:text-muted focus:border-stamp focus:outline-none;
+    @apply w-full rounded-[10px] border border-rule bg-sheet px-3.5 py-2.5 text-[15px] text-ink
+           transition-colors placeholder:text-muted/70 focus:border-stamp focus:outline-none
+           focus:ring-4 focus:ring-stamp/10;
   }
 
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-sheet bg-ink px-5 py-3
+    @apply inline-flex items-center justify-center gap-2 rounded-[10px] bg-ink px-5 py-3
            text-sm font-semibold tracking-tight text-paper transition-colors
            hover:bg-stamp disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-ink;
   }
 
   .sheet {
-    @apply rounded-sheet border border-rule bg-sheet;
-  }
-
-  /* Tractor-feed edges. The report is the one thing that gets to look printed. */
-  .perf {
-    @apply relative;
-  }
-
-  .perf::before,
-  .perf::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 20px;
-    pointer-events: none;
-    background-image: radial-gradient(
-      circle at 10px 11px,
-      theme("colors.paper") 3.5px,
-      transparent 3.6px
-    );
-    background-size: 20px 22px;
-  }
-
-  .perf::before {
-    left: 0;
-    border-right: 1px dashed theme("colors.rule");
-  }
-
-  .perf::after {
-    right: 0;
-    border-left: 1px dashed theme("colors.rule");
+    @apply rounded-sheet border border-rule bg-sheet shadow-card;
   }
 }

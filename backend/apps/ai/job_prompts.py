@@ -13,7 +13,12 @@ def job_skill_extraction_prompt(descriptions, chars_per_posting: int = 600) -> s
 You are an AI that extracts professional skills from job postings.
 
 INSTRUCTIONS:
-- Extract ALL technical, software, tool, and soft skills for EACH posting.
+- For EACH posting, extract skills a recruiter would search for: programming languages, frameworks,
+  libraries, databases, tools, platforms, and established practices (e.g. CI/CD, REST APIs).
+- Use the common short name, 1-3 words (e.g. "n8n", "PostgreSQL", "Docker").
+- Do NOT list duties, project features, products built, or job titles
+  (NOT "Sales tracking system development", "Inventory management", "Backend development").
+- List each skill once; no near-duplicates ("Microservices", not also "Microservice architecture design").
 - Normalize similar skills (React.js → React).
 - Do NOT invent skills. A posting that names none gets an empty array.
 - Do NOT explain anything.

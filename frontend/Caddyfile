@@ -1,0 +1,21 @@
+# DOMAIN comes from the root .env. A real domain gets a Let's Encrypt cert
+# automatically; ports 80 and 443 must be open to the internet.
+{$DOMAIN} {
+	encode gzip
+
+	# Resumes are ~5 MB max (MAX_RESUME_BYTES); leave a little room for the form.
+	request_body {
+		max_size 6MB
+	}
+
+	@django path /api/* /admin/* /static/*
+	handle @django {
+		reverse_proxy web:8000
+	}
+
+	handle {
+		root * /srv
+		try_files {path} /index.html
+		file_server
+	}
+}

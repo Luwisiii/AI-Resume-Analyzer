@@ -79,9 +79,9 @@ const AnalysisModal = ({ open, onClose, results }) => {
         aria-modal="true"
         aria-labelledby="report-title"
         onClick={(e) => e.stopPropagation()}
-        className="sheet perf mx-auto w-full max-w-3xl animate-rise"
+        className="sheet mx-auto w-full max-w-3xl animate-rise overflow-hidden"
       >
-        <div className="px-9 py-9 sm:px-12 sm:py-10">
+        <div className="px-6 py-7 sm:px-10 sm:py-9">
           {/* Masthead */}
           <div className="flex items-start justify-between gap-6 border-b border-rule pb-5">
             <div className="min-w-0">

@@ -64,6 +64,10 @@ class NormalizeTests(SimpleTestCase):
         assert row["description"] == "Build APIs & services."
         assert row["source"] == "remotive"
 
+    def test_remotive_drops_spam_tag_lists(self):
+        posting = {**REMOTIVE_SAMPLE["jobs"][0], "tags": [f"stack{i}" for i in range(50)]}
+        assert normalize_remotive(posting)["skills"] == ""
+
     def test_remotive_rejects_postings_without_url_or_title(self):
         assert normalize_remotive(REMOTIVE_SAMPLE["jobs"][1]) is None
         assert normalize_remotive(REMOTIVE_SAMPLE["jobs"][2]) is None
@@ -104,7 +108,8 @@ class ExtractSkillsBatchTests(SimpleTestCase):
         assert self.extract({"0": "SQL", "1": ["Excel"], "7": ["Ghost"]}) == ["", "excel"]
 
     def test_model_failure_yields_one_empty_entry_per_input(self):
-        # ask_model returns {} on any Ollama error; that must not abort a fetch.
+        # ask_model returns None when Ollama is down, {} on bad output; neither may abort a fetch.
+        assert self.extract(None) == ["", ""]
         assert self.extract({}) == ["", ""]
         assert self.extract([1, 2, 3]) == ["", ""]
 

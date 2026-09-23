@@ -1,46 +1,47 @@
 import React, { useEffect, useState } from "react";
-import api, { getToken, setToken } from "./api";
+import api from "./api";
 import AuthForm from "./AuthForm";
 import ResumeUpload from "./ResumeUpload";
 
 function App() {
-  // undefined = still checking a stored token, null = signed out.
-  const [username, setUsername] = useState(() => (getToken() ? undefined : null));
+  // undefined = still checking the session, null = signed out.
+  const [user, setUser] = useState(undefined);
 
   useEffect(() => {
-    if (!getToken()) return;
-
-    // A stored token may have been revoked since last visit; ask before trusting it.
+    // Get the CSRF cookie first; every write after this needs it.
     api
-      .get("/api/auth/me/")
-      .then(({ data }) => setUsername(data.username))
-      .catch(() => setUsername(null));
+      .get("/api/auth/csrf/")
+      .then(() => api.get("/api/auth/me/"))
+      .then(({ data }) => setUser(data))
+      .catch(() => setUser(null));
   }, []);
 
   useEffect(() => {
-    const signOut = () => setUsername(null);
+    const signOut = () => setUser(null);
     window.addEventListener("auth:expired", signOut);
     return () => window.removeEventListener("auth:expired", signOut);
   }, []);
 
-  if (username === undefined) {
+  if (user === undefined) {
     return (
       <div className="flex min-h-screen items-center justify-center" role="status">
-        <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-muted">
-          Checking your session…
-        </p>
+        <span className="h-8 w-8 animate-spin rounded-full border-2 border-rule border-t-stamp" />
+        <span className="sr-only">Checking your session…</span>
       </div>
     );
   }
 
-  if (username === null) return <AuthForm onAuthenticated={setUsername} />;
+  if (user === null) return <AuthForm onAuthenticated={setUser} />;
 
   return (
     <ResumeUpload
-      username={username}
-      onSignOut={() => {
-        setToken(null);
-        setUsername(null);
+      user={user}
+      onSignOut={async () => {
+        try {
+          await api.post("/api/auth/logout/");
+        } finally {
+          setUser(null);
+        }
       }}
     />
   );

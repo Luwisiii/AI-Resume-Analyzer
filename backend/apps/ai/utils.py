@@ -7,6 +7,8 @@ logger = logging.getLogger(__name__)
 
 OLLAMA_URL = os.environ.get("OLLAMA_URL", "http://localhost:11434/api/generate")
 MODEL = os.environ.get("OLLAMA_MODEL", "qwen2.5:7b")
+# CPU-only hosts generate a few tokens/s; a 2048-token batch can outlast 5 minutes.
+TIMEOUT = int(os.environ.get("OLLAMA_TIMEOUT", 300))
 
 
 def ask_model(prompt: str):
@@ -24,7 +26,7 @@ def ask_model(prompt: str):
                     "top_p": 0.9,
                 },
             },
-            timeout=300,
+            timeout=TIMEOUT,
         )
 
         if response.status_code >= 400:
@@ -48,5 +50,7 @@ def ask_model(prompt: str):
             return {}
 
     except Exception as e:
+        # None, not {}: callers must be able to tell "model unreachable" from
+        # "model found nothing", or an outage reads as an empty resume.
         logger.error(f"Ollama error: {e}")
-        return {}
+        return None
