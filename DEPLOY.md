@@ -13,7 +13,7 @@ Two options, both built from the root `Dockerfile`:
 | Web app (Django + React) | Render web service | Sleeps after 15 min idle; first visit takes ~1 min to wake |
 | Database (Postgres + pgvector) | Neon | 0.5 GB storage |
 | LLM | Groq API | Per-minute rate limits |
-| Nightly job refresh | GitHub Actions | GitHub disables schedules after 60 days of no repo activity |
+| Weekly job refresh | GitHub Actions | GitHub disables schedules after 60 days of no repo activity |
 
 Uploaded PDFs are stored on Render's disk, which is wiped on every deploy or
 restart. They are processed within seconds of upload, so results are kept.
@@ -44,7 +44,7 @@ Matching needs postings in the database, refreshed at least every 14 days.
 1. GitHub repo → **Settings → Secrets and variables → Actions** → add secrets
    `DB_HOST`, `DB_NAME`, `DB_USER`, `DB_PASSWORD`, `LLM_API_KEY`, `JOOBLE_API_KEY`
    (same values as on Render).
-2. **Actions → Refresh job postings → Run workflow**. After that it runs nightly.
+2. **Actions → Refresh job postings → Run workflow**. After that it runs weekly (Sundays).
 
 ## One VM with Docker Compose
 

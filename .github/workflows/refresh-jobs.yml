@@ -1,11 +1,13 @@
-# Nightly job-postings refresh for hosts with no Celery beat (Render free).
-# Postings unseen for 14 days drop out of matching, so this must keep running.
+# Weekly job-postings refresh for hosts with no Celery beat (Render free).
+# Postings unseen for 14 days drop out of matching, so weekly keeps every one
+# fresh. Each Jooble page is one request against the key's 500-request quota:
+# 8 searches x 2 pages = 16 per run, ~7 months of quota. Daily would burn it in one.
 # Needs repo secrets: DB_HOST, DB_NAME, DB_USER, DB_PASSWORD, LLM_API_KEY, JOOBLE_API_KEY.
 name: Refresh job postings
 
 on:
   schedule:
-    - cron: "0 19 * * *"  # 03:00 Philippine time
+    - cron: "0 19 * * 6"  # Sundays 03:00 Philippine time
   workflow_dispatch:  # "Run workflow" button, for the first fill
 
 jobs:
@@ -37,4 +39,12 @@ jobs:
 
       - name: Refresh
         working-directory: backend
-        run: python manage.py shell -c "from apps.jobs.tasks import refresh_jobs; print(refresh_jobs())"
+        # One search per kind of resume people upload, so every one has postings
+        # in its field to match against. "" is the general Philippine feed.
+        run: |
+          python manage.py shell <<'EOF'
+          from apps.jobs.tasks import refresh_jobs
+          for term in ["", "video editor", "graphic designer", "web developer",
+                       "virtual assistant", "data analyst", "customer service", "accountant"]:
+              print(term or "general", refresh_jobs(search=term, limit=40))
+          EOF
