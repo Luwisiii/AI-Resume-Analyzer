@@ -198,7 +198,8 @@ const AuthForm = ({ onAuthenticated }) => {
         </div>
 
         <p className="text-center text-xs text-muted">
-          © {new Date().getFullYear()} Resume Analyzer · Your data stays in your account.
+          © {new Date().getFullYear()} Resume Analyzer · Your data stays in your account. ·{" "}
+          <a href="/privacy.html" className="hover:text-ink hover:underline">Privacy</a>
         </p>
       </div>
 

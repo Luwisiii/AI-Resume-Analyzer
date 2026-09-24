@@ -366,7 +366,10 @@ const ResumeUpload = ({ user, onSignOut }) => {
             <p className="flex items-center gap-2">
               <Mark className="h-4 w-4" /> © {new Date().getFullYear()} Resume Analyzer
             </p>
-            <p>Your resume is private to your account.</p>
+            <p>
+              Your resume is private to your account. ·{" "}
+              <a href="/privacy.html" className="hover:text-ink hover:underline">Privacy</a>
+            </p>
           </div>
         </footer>
       </div>
