@@ -56,4 +56,43 @@
   .sheet {
     @apply rounded-sheet border border-rule bg-sheet shadow-card;
   }
+
+  /* Wordmark read head: a bar sweeps once across the word, inking it blue as
+     it passes. The resting state is fully inked, so no animation = finished. */
+  .readhead {
+    position: relative;
+    display: inline-block;
+    color: transparent;
+    background: linear-gradient(90deg, theme("colors.stamp") 50%, theme("colors.rule") 50%) 0 0 / 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: readhead-ink 1.4s cubic-bezier(0.6, 0, 0.3, 1) 0.3s backwards;
+  }
+  .readhead::after {
+    content: "";
+    position: absolute;
+    top: -3px;
+    bottom: -3px;
+    left: 100%;
+    width: 2px;
+    background: theme("colors.stamp");
+    opacity: 0;
+    animation: readhead-bar 1.4s cubic-bezier(0.6, 0, 0.3, 1) 0.3s backwards;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .readhead,
+    .readhead::after {
+      animation: none;
+    }
+  }
+}
+
+@keyframes readhead-ink {
+  from { background-position: 100% 0; }
+  85%, to { background-position: 0 0; }
+}
+@keyframes readhead-bar {
+  from { left: 0; opacity: 1; }
+  85% { left: 100%; opacity: 1; }
+  to { left: 100%; opacity: 0; }
 }

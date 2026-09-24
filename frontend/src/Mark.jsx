@@ -1,21 +1,27 @@
 import React from "react";
 
-/* A page with one line picked out — the product in a glyph: a document, read,
-   with a single finding flagged. Replaces the stock 3D robot. */
+/* An R caught in a scan frame; its leg is the one finding flagged blue.
+   Same drawing as public/favicon.svg. */
 const Mark = ({ className = "h-7 w-7" }) => (
   <svg viewBox="0 0 32 32" className={className} aria-hidden="true" focusable="false">
+    <rect width="32" height="32" rx="7" fill="#161a16" />
     <path
-      d="M7 3h12l6 6v20H7z"
+      d="M5.5 10.5v-5h5M21.5 5.5h5v5M26.5 21.5v5h-5M10.5 26.5h-5v-5"
       fill="none"
-      stroke="currentColor"
-      strokeWidth="1.6"
+      stroke="#f2f4ee"
+      strokeOpacity=".7"
+      strokeWidth="2"
+      strokeLinecap="round"
       strokeLinejoin="round"
     />
-    <path d="M19 3v6h6" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
-    <g stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" opacity=".3">
-      <path d="M11 14h10M11 22h6" />
-    </g>
-    <path d="M11 18h10" stroke="#1c3faa" strokeWidth="1.6" strokeLinecap="round" />
+    <path
+      d="M12.5 23V9.5h4.25a3.75 3.75 0 0 1 0 7.5H12.5"
+      fill="none"
+      stroke="#f2f4ee"
+      strokeWidth="2.8"
+      strokeLinejoin="round"
+    />
+    <path d="M16.5 17.5l4.25 5.5" stroke="#7d97ff" strokeWidth="3" strokeLinecap="round" />
   </svg>
 );
 
