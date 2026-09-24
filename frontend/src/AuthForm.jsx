@@ -63,7 +63,9 @@ const AuthForm = ({ onAuthenticated }) => {
       <div className="flex flex-col px-5 py-8 sm:px-10">
         <div className="flex items-center gap-2.5 text-ink">
           <Mark />
-          <span className="text-[15px] font-semibold tracking-tight">Resume Analyzer</span>
+          <span className="text-[15px] font-semibold tracking-tight">
+            Resume <span className="readhead">Analyzer</span>
+          </span>
         </div>
 
         <div className="mx-auto flex w-full max-w-[24rem] flex-1 flex-col justify-center py-10 animate-rise">

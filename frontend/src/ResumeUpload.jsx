@@ -154,7 +154,9 @@ const ResumeUpload = ({ user, onSignOut }) => {
           <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-3 sm:px-8">
             <div className="flex items-center gap-2.5">
               <Mark className="h-6 w-6" />
-              <span className="text-[15px] font-semibold tracking-tight">Resume Analyzer</span>
+              <span className="text-[15px] font-semibold tracking-tight">
+                Resume <span className="readhead">Analyzer</span>
+              </span>
             </div>
 
             <div className="flex items-center gap-3">
