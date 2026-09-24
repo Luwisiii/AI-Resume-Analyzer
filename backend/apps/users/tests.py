@@ -1,6 +1,10 @@
+from unittest.mock import MagicMock, patch
+from urllib.parse import parse_qs, urlparse
+
+import requests
 from django.contrib.auth import get_user_model
 from django.core.cache import cache
-from django.test import Client, TestCase
+from django.test import Client, TestCase, override_settings
 
 User = get_user_model()
 
@@ -90,3 +94,92 @@ class AuthTests(TestCase):
         strict.get("/api/auth/csrf/")
         token = strict.cookies["csrftoken"].value
         assert strict.post("/api/auth/login/", body, HTTP_X_CSRFTOKEN=token).status_code == 200
+
+
+def fake_response(payload, status=200):
+    response = MagicMock(ok=status < 400, status_code=status)
+    response.json.return_value = payload
+    response.raise_for_status.side_effect = None if status < 400 else requests.HTTPError()
+    return response
+
+
+GITHUB_USER = {"id": 42, "login": "octo cat"}
+GITHUB_EMAILS = [
+    {"email": "old@b.test", "primary": False, "verified": True},
+    {"email": "Octo@B.test", "primary": True, "verified": True},
+]
+
+
+@override_settings(GITHUB_CLIENT_ID="gh-id", GITHUB_CLIENT_SECRET="gh-secret", GOOGLE_CLIENT_ID="")
+class OAuthTests(TestCase):
+    def github_signin(self, client=None, user=GITHUB_USER, emails=GITHUB_EMAILS, token=None):
+        client = client or self.client
+        start = client.get("/api/auth/oauth/github/")
+        state = parse_qs(urlparse(start["Location"]).query)["state"][0]
+
+        token_response = fake_response(token or {"access_token": "tok"})
+        with patch("apps.users.oauth.requests.post", return_value=token_response), patch(
+            "apps.users.oauth.requests.get",
+            side_effect=[fake_response(user), fake_response(emails)],
+        ):
+            return client.get("/api/auth/oauth/github/callback/", {"code": "c", "state": state})
+
+    def test_start_redirects_to_the_provider_with_a_state(self):
+        response = self.client.get("/api/auth/oauth/github/")
+        assert response.status_code == 302
+        query = parse_qs(urlparse(response["Location"]).query)
+        assert response["Location"].startswith("https://github.com/login/oauth/authorize?")
+        assert query["client_id"] == ["gh-id"]
+        assert query["redirect_uri"] == ["http://testserver/api/auth/oauth/github/callback/"]
+        assert len(query["state"][0]) > 30
+
+    def test_unconfigured_provider_goes_back_with_an_error(self):
+        response = self.client.get("/api/auth/oauth/google/")
+        assert response["Location"].startswith("/?auth_error=")
+
+    def test_unknown_provider_is_404(self):
+        assert self.client.get("/api/auth/oauth/myspace/").status_code == 404
+
+    def test_first_signin_creates_a_passwordless_user_and_signs_in(self):
+        response = self.github_signin()
+        assert response["Location"] == "/"
+
+        user = User.objects.get(email="octo@b.test")  # primary verified, lowercased
+        assert user.username == "octocat"
+        assert not user.has_usable_password()
+        assert self.client.get("/api/auth/me/").json()["email"] == "octo@b.test"
+
+    def test_second_signin_reuses_the_account_even_if_the_email_changed(self):
+        self.github_signin()
+        emails = [{"email": "new@b.test", "primary": True, "verified": True}]
+        self.github_signin(Client(), emails=emails)
+        assert User.objects.count() == 1
+
+    def test_callback_without_the_session_state_is_rejected(self):
+        # A callback link planted by an attacker: this browser never started a sign-in.
+        with patch("apps.users.oauth.requests.post") as post:
+            response = self.client.get("/api/auth/oauth/github/callback/", {"code": "c", "state": "x"})
+        assert "auth_error" in response["Location"]
+        post.assert_not_called()
+        assert self.client.get("/api/auth/me/").status_code == 401
+
+    def test_does_not_take_over_a_password_account_with_the_same_email(self):
+        User.objects.create_user("owner", email="octo@b.test", password=PASSWORD)
+        response = self.github_signin()
+        assert "auth_error" in response["Location"]
+        assert not User.objects.get(username="owner").social_accounts.exists()
+
+    def test_unverified_email_is_refused(self):
+        emails = [{"email": "octo@b.test", "primary": True, "verified": False}]
+        assert "auth_error" in self.github_signin(emails=emails)["Location"]
+        assert not User.objects.filter(email="octo@b.test").exists()
+
+    def test_rejected_code_is_an_error_not_a_crash(self):
+        response = self.github_signin(token={"error": "bad_verification_code"})
+        assert "auth_error" in response["Location"]
+
+    def test_username_collision_gets_a_suffix(self):
+        User.objects.create_user("octocat", email="someone@else.test", password=PASSWORD)
+        self.github_signin()
+        assert User.objects.get(email="octo@b.test").username.startswith("octocat")
+        assert User.objects.filter(username__istartswith="octocat").count() == 2

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 48" role="img" aria-label="Resume Analyzer">
+  <style>
+    .ink { fill: #161a16 } .stamp { fill: #1c3faa }
+    @media (prefers-color-scheme: dark) { .ink { fill: #f2f4ee } .stamp { fill: #7d97ff } }
+  </style>
+  <g transform="translate(0 4) scale(1.25)">
+    <rect width="32" height="32" rx="7" fill="#161a16"/>
+  <path d="M7.5 4h11l6 6v18h-17z" fill="#f2f4ee"/>
+  <path d="M18.5 4v6h6" fill="#ccd6c8"/>
+  <path d="M11.5 14h9M11.5 23.5h5.5" stroke="#161a16" stroke-opacity=".35" stroke-width="2.4" stroke-linecap="round"/>
+  <path d="M11.5 18.75h9" stroke="#1c3faa" stroke-width="2.8" stroke-linecap="round"/>
+  </g>
+  <text x="52" y="32" font-family="Archivo, 'Helvetica Neue', Arial, sans-serif" font-size="24" font-weight="700" letter-spacing="-0.5" class="ink">Resume<tspan class="stamp"> Analyzer</tspan></text>
+</svg>

@@ -42,3 +42,13 @@ services:
 
       - key: JOOBLE_API_KEY
         sync: false
+
+      # Optional Google / GitHub sign-in (DEPLOY.md step 5). Blank = button shows an error.
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
+      - key: GITHUB_CLIENT_ID
+        sync: false
+      - key: GITHUB_CLIENT_SECRET
+        sync: false

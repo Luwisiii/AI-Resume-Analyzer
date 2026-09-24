@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { FaGithub } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
 import { FiBriefcase, FiCheck, FiEye, FiEyeOff, FiLock, FiTarget } from "react-icons/fi";
 import api, { errorMessage } from "./api";
 import { AuthArt } from "./Illustrations";
@@ -10,12 +12,23 @@ const PERKS = [
   [FiLock, "Your resume is private to your account and never shared."],
 ];
 
+// Full-page navigations: Django redirects to the provider and back to "/".
+const PROVIDERS = [
+  ["google", "Google", FcGoogle],
+  ["github", "GitHub", FaGithub],
+];
+
 const AuthForm = ({ onAuthenticated }) => {
   const [mode, setMode] = useState("login");
   const [form, setForm] = useState({ username: "", email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState("");
+  // A failed Google/GitHub sign-in comes back as /?auth_error=...
+  const [error, setError] = useState(() => new URLSearchParams(window.location.search).get("auth_error") || "");
   const [busy, setBusy] = useState(false);
+
+  useEffect(() => {
+    if (window.location.search) window.history.replaceState(null, "", window.location.pathname);
+  }, []);
 
   const isRegister = mode === "register";
   const update = (field) => (e) => setForm({ ...form, [field]: e.target.value });
@@ -63,7 +76,25 @@ const AuthForm = ({ onAuthenticated }) => {
               : "Sign in to analyze a resume and see your latest matches."}
           </p>
 
-          <form onSubmit={submit} className="mt-8 space-y-5">
+          <div className="mt-8 grid gap-3">
+            {PROVIDERS.map(([id, name, icon]) => {
+              const Icon = icon;
+              return (
+                <a key={id} href={`${api.defaults.baseURL}/api/auth/oauth/${id}/`} className="btn-outline">
+                  <Icon className="h-[18px] w-[18px]" aria-hidden="true" />
+                  Continue with {name}
+                </a>
+              );
+            })}
+          </div>
+
+          <div className="mt-6 flex items-center gap-3 text-xs text-muted">
+            <span className="h-px flex-1 bg-rule" />
+            or with a username
+            <span className="h-px flex-1 bg-rule" />
+          </div>
+
+          <form onSubmit={submit} className="mt-6 space-y-5">
             <div>
               <label className="mb-1.5 block text-sm font-medium" htmlFor="username">
                 Username
@@ -167,7 +198,8 @@ const AuthForm = ({ onAuthenticated }) => {
         </div>
 
         <p className="text-center text-xs text-muted">
-          © {new Date().getFullYear()} Resume Analyzer · Your data stays in your account.
+          © {new Date().getFullYear()} Resume Analyzer · Your data stays in your account. ·{" "}
+          <a href="/privacy.html" className="hover:text-ink hover:underline">Privacy</a>
         </p>
       </div>
 

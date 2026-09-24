@@ -46,6 +46,24 @@ Matching needs postings in the database, refreshed at least every 14 days.
    (same values as on Render).
 2. **Actions → Refresh job postings → Run workflow**. After that it runs weekly (Sundays).
 
+### 5. Google and GitHub sign-in (optional)
+Use your site URL (e.g. `https://ai-resume-analyzer-XXXX.onrender.com`) below.
+
+- **Google**: [console.cloud.google.com](https://console.cloud.google.com) → **APIs & Services →
+  OAuth consent screen** (External, add your email as a test user or publish it) →
+  **Credentials → Create credentials → OAuth client ID** → Web application.
+  Authorized redirect URI: `<site>/api/auth/oauth/google/callback/`.
+- **GitHub**: [github.com/settings/developers](https://github.com/settings/developers) →
+  **New OAuth App**. Homepage: `<site>`. Callback URL: `<site>/api/auth/oauth/github/callback/`.
+
+Put the client ids and secrets in Render's `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`,
+`GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET`. The URI must match exactly, trailing slash included.
+
+An account made with a username and password is never linked to a Google or GitHub
+sign-in with the same email. Registration doesn't verify email, so that could hand
+the email's real owner's account to whoever registered it. Those users keep signing
+in with their password.
+
 ## One VM with Docker Compose
 
 The whole stack (Caddy for HTTPS, Django, Celery worker + beat, Redis,

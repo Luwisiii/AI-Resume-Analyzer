@@ -47,6 +47,12 @@
            hover:bg-stamp disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-ink;
   }
 
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2.5 rounded-[10px] border border-rule bg-sheet
+           px-5 py-2.5 text-sm font-semibold tracking-tight text-ink transition-colors
+           hover:border-ink/40 hover:bg-bar;
+  }
+
   .sheet {
     @apply rounded-sheet border border-rule bg-sheet shadow-card;
   }

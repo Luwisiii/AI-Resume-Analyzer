@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>Privacy Policy · Resume Analyzer</title>
+    <style>
+      :root { --paper: #f2f4ee; --ink: #161a16; --muted: #5b655c; --stamp: #1c3faa; --rule: #ccd6c8; }
+      @media (prefers-color-scheme: dark) {
+        :root { --paper: #161a16; --ink: #f2f4ee; --muted: #a9b3a9; --stamp: #7d97ff; --rule: #333a33; }
+      }
+      body { margin: 0; background: var(--paper); color: var(--ink);
+             font: 16px/1.65 Archivo, ui-sans-serif, system-ui, sans-serif; }
+      main { max-width: 42rem; margin: 0 auto; padding: 48px 16px 64px; }
+      h1 { font-size: 1.9rem; line-height: 1.2; letter-spacing: -0.02em; margin: 24px 0 4px; }
+      h2 { font-size: 1.1rem; margin: 32px 0 8px; }
+      p, li { color: var(--ink); }
+      .muted { color: var(--muted); font-size: 14px; }
+      a { color: var(--stamp); }
+      ul { padding-left: 1.25rem; }
+      hr { border: 0; border-top: 1px solid var(--rule); margin: 40px 0 16px; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <a href="/"><img src="/favicon.svg" width="36" height="36" alt="Resume Analyzer home" /></a>
+      <h1>Privacy Policy</h1>
+      <p class="muted">Last updated September 23, 2026</p>
+
+      <p>Resume Analyzer is a free portfolio project that scores a resume and matches it to
+        public job postings. This page explains what it stores and who else sees it.</p>
+
+      <h2>What we store</h2>
+      <ul>
+        <li><strong>Your account:</strong> username, email address, and a hashed password. If
+          you sign in with Google or GitHub, we store that provider's account ID and the
+          verified email it gives us, and no password. We never see or store your Google or
+          GitHub password.</li>
+        <li><strong>Resumes you upload:</strong> the PDF, the text extracted from it, the skills
+          and feedback generated from it, and a numeric summary (an embedding) used for job
+          matching.</li>
+        <li><strong>A session cookie</strong> that keeps you signed in, and a CSRF cookie that
+          protects your account from forged requests. No advertising or analytics cookies.</li>
+      </ul>
+
+      <h2>Who else processes it</h2>
+      <ul>
+        <li><strong>Groq</strong> runs the AI model: resume text is sent to it to generate
+          skills and feedback.</li>
+        <li><strong>Render</strong> hosts the app and <strong>Neon</strong> hosts the database.</li>
+        <li><strong>Google</strong> and <strong>GitHub</strong>, only if you choose to sign in
+          with them.</li>
+      </ul>
+      <p>Your resume is visible only to your account. We don't sell or share your data with
+        anyone else, and we don't use it for advertising.</p>
+
+      <h2>Keeping and deleting data</h2>
+      <p>Your data is kept until you ask for it to be deleted. Uploaded PDF files may be
+        cleared sooner when the server restarts; the analysis stays. To delete your account and
+        everything linked to it, email
+        <a href="mailto:paoskidumayas09@gmail.com">paoskidumayas09@gmail.com</a> from the address
+        on your account.</p>
+
+      <h2>Contact</h2>
+      <p>Questions about this policy:
+        <a href="mailto:paoskidumayas09@gmail.com">paoskidumayas09@gmail.com</a>.</p>
+
+      <hr />
+      <p class="muted"><a href="/">Back to Resume Analyzer</a></p>
+    </main>
+  </body>
+</html>
